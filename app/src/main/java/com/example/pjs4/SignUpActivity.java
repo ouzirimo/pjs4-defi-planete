@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,7 +17,11 @@ public class SignUpActivity extends AppCompatActivity {
     String email,login,pass,conPass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
         etEmail = findViewById(R.id.input_mail);
@@ -53,13 +59,9 @@ public class SignUpActivity extends AppCompatActivity {
                 etLogin.setError("Login manquant");
                 etLogin.requestFocus();
                 valid =false;
-            }
-            else if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                etEmail.setError("Email manquant");
-                etEmail.requestFocus();
-                valid =false;
 
             }
+
             else if(pass.isEmpty()){
                 etPassword.setError("mot de passe manquant");
                 etPassword.requestFocus();
@@ -70,9 +72,16 @@ public class SignUpActivity extends AppCompatActivity {
                 etConPass.requestFocus();
                 valid =false;
             }
-            else if (pass.equals(conPass)){
-                etPassword.setError("Les mots de passe ne correspondent pas ");
+            else if (!pass.equals(conPass)){
+                etConPass.setError("Les mots de passe ne correspondent pas ");
+                etConPass.requestFocus();
                 valid =false;
+            }
+            else if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                etEmail.setError("Email manquant/incorrect");
+                etEmail.requestFocus();
+                valid =false;
+
             }
 
             return valid;
