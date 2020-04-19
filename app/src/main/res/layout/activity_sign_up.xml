@@ -9,16 +9,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="176dp"
+        android:layout_width="200dp"
         android:layout_height="69dp"
-        android:layout_marginStart="116dp"
-        android:layout_marginLeft="116dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="56dp"
         android:text="Ecolo App"
         android:textColor="#1F5520"
-        android:textSize="50sp"
+        android:textSize="55sp"
         app:fontFamily="cursive"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -32,7 +31,7 @@
         app:fontFamily="monospace"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Inscrivez-vous!" />
+        android:text="Inscrivez-vous!" />
 
     <TextView
         android:id="@+id/textView3"
@@ -73,7 +72,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Confirmez votre mot de passe" />
 
-    <android.inputmethodservice.ExtractEditText
+    <EditText
         android:id="@+id/input_login"
         android:layout_width="173dp"
         android:layout_height="39dp"
@@ -83,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.inputmethodservice.ExtractEditText
+    <EditText
         android:id="@+id/input_mdp"
         android:layout_width="171dp"
         android:layout_height="43dp"

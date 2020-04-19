@@ -21,10 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private Button bt_go,btn_register;
     private DataBase dataBase;
 
-    public MainActivity(){
-
-
-    }
 
     //rajouter la view
     @Override
@@ -35,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         bt_go = (Button) findViewById(R.id.button_goAccueil);
         btn_register= (Button) findViewById(R.id.button_register);
         //AllChallenge = (TextView) findViewById(R.id.AllChallenge);
-        dataBase = new DataBase(this); //création dataBase
+      //  dataBase = new DataBase(this); //création dataBase
 
 
 
@@ -52,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //tester ...
-        dataBase.close();
+        //dataBase.close();
 
         bt_go.setOnClickListener(new View.OnClickListener() {
 
@@ -75,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public DataBase getDataBase() {
+    /*public DataBase getDataBase() {
         return dataBase;
     }
 
@@ -85,4 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     //au moment de l'ouverture, générer la liste de challenge pour un utilisateur
+
+     */
 }
