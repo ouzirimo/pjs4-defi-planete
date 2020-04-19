@@ -1,39 +1,51 @@
 package com.example.pjs4;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
-import model.Challenge;
 import model.DataBase;
 import views.Accueil;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn_go,btn_register;
+    private Button bt_go;
     private DataBase dataBase;
+    private EditText ed1, ed2;
 
+    //rajouter les input??
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Name = "nameKey"; //pk mettre ici le name et mdp comme il est déjà dans la classe user car var session?
+    public static final String Pwd = "pwdKey";
+    SharedPreferences sharedpreferences;
+
+    public MainActivity(){
+
+
+    }
 
     //rajouter la view
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        btn_go = (Button) findViewById(R.id.button_goAccueil);
-        btn_register= (Button) findViewById(R.id.button_register);
+        if(sharedpreferences.getString(Name, null) != null){
+            Intent in = new Intent(MainActivity.this, Accueil.class);
+            startActivity(in);
+        }
+
+        bt_go = (Button) findViewById(R.id.button_goAccueil);
         //AllChallenge = (TextView) findViewById(R.id.AllChallenge);
-      //  dataBase = new DataBase(this); //création dataBase
-
-
+        // = new DataBase(this); //création dataBase
 
         //Créer la base et insérer des valeurs (à faire une fois) insérer des user + autres challenges
         //String req = "INSERT INTO Challenge (id_challenge, name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (1, \"Ramasser 5 mégots\",\"Jeter dans une poubelle 5 mégots par terre. N'oubliez pas de vous laver les mains !\",\"Activité\",10);";
@@ -47,10 +59,37 @@ public class MainActivity extends AppCompatActivity {
         dataBase.ajouter_challenge(req4);*/
 
 
+
+        ed1 = findViewById(R.id.input_name);
+        ed2 = findViewById(R.id.input_password);
+        System.out.println("Test des edt");
+
+        //b1=(Button)findViewById(R.id.button);
+
+
+        bt_go.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String n  = ed1.getText().toString(); //quel pb???
+                String pwd  = ed2.getText().toString();
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                editor.putString(Name, n);
+                editor.putString(Pwd, pwd);
+                editor.commit();
+
+                Intent in = new Intent(MainActivity.this, Accueil.class);
+                startActivity(in);
+            }
+        });
+
+
         //tester ...
         //dataBase.close();
 
-        btn_go.setOnClickListener(new View.OnClickListener() {
+        /*bt_go.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -60,18 +99,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
             }
-        });
-
-        btn_register.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                startActivity(new Intent(MainActivity.this,SignUpActivity.class));
-            }
-
-        });
+        });*/
     }
 
-    /*public DataBase getDataBase() {
+    public DataBase getDataBase() {
+
         return dataBase;
     }
 
@@ -81,6 +113,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     //au moment de l'ouverture, générer la liste de challenge pour un utilisateur
-
-     */
 }

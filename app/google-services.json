@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "871318540160",
-    "firebase_url": "https://pjs4-2b58f.firebaseio.com",
-    "project_id": "pjs4-2b58f",
-    "storage_bucket": "pjs4-2b58f.appspot.com"
+    "project_number": "383251402087",
+    "firebase_url": "https://ecoloappdb.firebaseio.com",
+    "project_id": "ecoloappdb",
+    "storage_bucket": "ecoloappdb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:871318540160:android:96c735423f85327a90bb65",
+        "mobilesdk_app_id": "1:383251402087:android:7dc92b648d325221ddb3c2",
         "android_client_info": {
           "package_name": "com.example.pjs4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "871318540160-6gr3nt4pluk323saun3raiq3nng40c7a.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.pjs4",
-            "certificate_hash": "5263e33a352da11e643b350d198dd579022a6fb0"
-          }
-        },
-        {
-          "client_id": "871318540160-p9m5p3o51rkcb697lgumifuesuf7slsb.apps.googleusercontent.com",
+          "client_id": "383251402087-gr607oqvvaf20ots5qal4opgukn4ob3t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDv-DyE5V5GohilwWQQbfXxnfOCjP-xtxA"
+          "current_key": "AIzaSyDwmUyfChtCpxOsoJ-F8kUb2RP5m6kOWsM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "871318540160-p9m5p3o51rkcb697lgumifuesuf7slsb.apps.googleusercontent.com",
+              "client_id": "383251402087-gr607oqvvaf20ots5qal4opgukn4ob3t.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
