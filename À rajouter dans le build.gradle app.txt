@@ -4,6 +4,4 @@ dans defeultConfig :
 	minSdkVersion 16
 
 dans dependencies :
-
-	implementation 'com.google.firebase:firebase-auth:19.3.0'
 	implementation 'com.google.firebase:firebase-database:19.2.1'
