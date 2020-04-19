@@ -1,7 +1,0 @@
-apply plugin: 'com.google.gms.google-services' en haut
-
-dans defeultConfig :
-	minSdkVersion 16
-
-dans dependencies :
-	implementation 'com.google.firebase:firebase-database:19.2.1'
