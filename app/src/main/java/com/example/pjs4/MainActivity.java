@@ -15,7 +15,7 @@ import views.Accueil;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button bt_go;
+    private Button bt_go, bt_su;
     private DataBase dataBase;
     private EditText ed1, ed2;
 
@@ -28,9 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     public MainActivity(){
 
-
     }
-
     //rajouter la view
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +36,54 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        if(sharedpreferences.getString(Name, null) != null){
+        if (sharedpreferences.getString(Name, null) != null) {
             Intent in = new Intent(MainActivity.this, Accueil.class);
             startActivity(in);
         }
 
         bt_go = (Button) findViewById(R.id.button_goAccueil);
+        bt_su = (Button) findViewById(R.id.button_register);
+
+        ed1 = findViewById(R.id.input_login);
+        ed2 = findViewById(R.id.input_pwd);
+        System.out.println("Test des edt");
+
+
+        bt_go.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String n = ed1.getText().toString(); //quel pb???
+                String pwd = ed2.getText().toString();
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                editor.putString(Name, n);
+                editor.putString(Pwd, pwd);
+                editor.commit();
+
+                Intent in = new Intent(MainActivity.this, Accueil.class);
+                startActivity(in);
+            }
+        });
+
+        bt_su.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(MainActivity.this, SignUpActivity.class);
+                startActivity(in);
+            }
+
+        });
+
+    }
+
+
+
+
+
+
         //AllChallenge = (TextView) findViewById(R.id.AllChallenge);
         // = new DataBase(this); //création dataBase
 
@@ -57,33 +97,6 @@ public class MainActivity extends AppCompatActivity {
         dataBase.ajouter_challenge(req2);
         dataBase.ajouter_challenge(req3);
         dataBase.ajouter_challenge(req4);*/
-
-
-
-        ed1 = findViewById(R.id.input_login);
-        ed2 = findViewById(R.id.input_pwd);
-        System.out.println("Test des edt");
-
-        //b1=(Button)findViewById(R.id.button);
-
-
-        bt_go.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String n  = ed1.getText().toString(); //quel pb???
-                String pwd  = ed2.getText().toString();
-
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                editor.putString(Name, n);
-                editor.putString(Pwd, pwd);
-                editor.commit();
-
-                Intent in = new Intent(MainActivity.this, Accueil.class);
-                startActivity(in);
-            }
-        });
 
 
         //tester ...
@@ -100,9 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });*/
-    }
 
-    public DataBase getDataBase() {
+        /*public DataBase getDataBase() {
 
         return dataBase;
     }
@@ -113,4 +125,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     //au moment de l'ouverture, générer la liste de challenge pour un utilisateur
+     */
 }

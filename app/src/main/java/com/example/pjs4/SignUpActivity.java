@@ -11,10 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SignUpActivity extends AppCompatActivity {
     EditText etEmail,etPassword,etLogin,etConPass;
     Button btnRegister;
     String email,login,pass,conPass;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -23,6 +28,8 @@ public class SignUpActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
+
+        mAuth = FirebaseAuth.getInstance();
 
         etEmail = findViewById(R.id.input_mail);
         etPassword = findViewById(R.id.input_mdp);
@@ -33,19 +40,28 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-
             register();
-
-
             }
-
-
         });
     }
 
-        public void initialize(){
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+
+    }
+
+
+    public void initialize(){
             email= etEmail.getText().toString();
             login = etLogin.getText().toString();
             pass = etPassword.getText().toString();
@@ -87,7 +103,8 @@ public class SignUpActivity extends AppCompatActivity {
             return valid;
         }
 
-        public void onSignUpSucces(){
+        public void onSignUpSuccess(){
+            mAuth.createUserWithEmailAndPassword(email, pass);
 
         }
 
@@ -96,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(!validate()){
             Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
         }else{
-            onSignUpSucces();
+            onSignUpSuccess();
         }
 
         }
