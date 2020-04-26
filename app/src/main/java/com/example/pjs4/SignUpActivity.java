@@ -2,6 +2,9 @@ package com.example.pjs4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -14,11 +17,14 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import views.Accueil;
+
 public class SignUpActivity extends AppCompatActivity {
     EditText etEmail,etPassword,etLogin,etConPass;
     Button btnRegister;
     String email,login,pass,conPass;
     private FirebaseAuth mAuth;
+    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         mAuth = FirebaseAuth.getInstance();
+        sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         etEmail = findViewById(R.id.input_mail);
         etPassword = findViewById(R.id.input_mdp);
@@ -105,7 +112,15 @@ public class SignUpActivity extends AppCompatActivity {
 
         public void onSignUpSuccess(){
             mAuth.createUserWithEmailAndPassword(email, pass);
+            
 
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString("nameKey", login);
+            editor.putString("pwdKey", pass);
+            editor.commit();
+
+            Intent in = new Intent(SignUpActivity.this, Accueil.class);
+            startActivity(in);
         }
 
         public void register (){
