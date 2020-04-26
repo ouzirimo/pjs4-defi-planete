@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        ed1 = findViewById(R.id.input_name);
-        ed2 = findViewById(R.id.input_password);
+        ed1 = findViewById(R.id.input_login);
+        ed2 = findViewById(R.id.input_pwd);
         System.out.println("Test des edt");
 
         //b1=(Button)findViewById(R.id.button);
