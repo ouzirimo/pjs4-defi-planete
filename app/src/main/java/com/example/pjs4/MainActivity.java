@@ -15,7 +15,7 @@ import views.Accueil;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button bt_go;
+    private Button bt_go, btn_register;
     private DataBase dataBase;
     private EditText ed1, ed2;
 
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         bt_go = (Button) findViewById(R.id.button_goAccueil);
+        btn_register = findViewById(R.id.button_register);
         //AllChallenge = (TextView) findViewById(R.id.AllChallenge);
         // = new DataBase(this); //création dataBase
 
@@ -85,6 +86,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        btn_register.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startActivity(new Intent(MainActivity.this,SignUpActivity.class));
+            }
+
+        });
 
         //tester ...
         //dataBase.close();
