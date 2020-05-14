@@ -3,6 +3,7 @@ package com.example.pjs4;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
         btn_go = (Button) findViewById(R.id.button_goAccueil);
         btn_register = findViewById(R.id.button_register);
+
+        /* call database */
+        dataBase = new DataBase(this);
+        dataBase.getWritableDatabase();
+
+        //dataBase.onCreate(db);
+
         //AllChallenge = (TextView) findViewById(R.id.AllChallenge);
         // = new DataBase(this); //création dataBase
 

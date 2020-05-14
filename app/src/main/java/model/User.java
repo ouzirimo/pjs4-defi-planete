@@ -7,7 +7,8 @@ public class User {
     private String login;
     private String email;
     private String password;
-    private LinkedList <Backpack> backpack;
+    private long level;
+    private LinkedList <challengePivot> backpack;
 
     public User(String login, String email, String password) {
         this.login = login;
@@ -25,7 +26,7 @@ public class User {
      * @param challenge
      */
     public void addChallenge(Challenge challenge){
-        Backpack object = new Backpack(challenge);
+        challengePivot object = new challengePivot(challenge);
         this.backpack.add(object);
     }
 
@@ -34,7 +35,7 @@ public class User {
      * @param challenge
      */
     public void challengeDone(Challenge challenge){
-        Backpack bag = searchBackpack(challenge);
+        challengePivot bag = searchBackpack(challenge);
         if(bag != null) {
             bag.setDone(true);
         }
@@ -45,8 +46,8 @@ public class User {
      * @param challenge
      * @return backpack linked to challenge
      */
-    public Backpack searchBackpack(Challenge challenge){
-        for(Backpack b : backpack){
+    public challengePivot searchBackpack(Challenge challenge){
+        for(challengePivot b : backpack){
             if (b.getChallenge().equals(challenge)){
                 return b;
             }
