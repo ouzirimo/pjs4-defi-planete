@@ -3,6 +3,7 @@ package com.example.pjs4;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,7 @@ import views.Accueil;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button bt_go;
+    private Button btn_go, btn_register;
     private DataBase dataBase;
     private EditText ed1, ed2;
 
@@ -43,7 +44,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(in);
         }
 
-        bt_go = (Button) findViewById(R.id.button_goAccueil);
+        btn_go = (Button) findViewById(R.id.button_goAccueil);
+        btn_register = findViewById(R.id.button_register);
+
+        /* call database */
+        dataBase = new DataBase(this);
+        dataBase.getWritableDatabase();
+
+        //dataBase.onCreate(db);
+
         //AllChallenge = (TextView) findViewById(R.id.AllChallenge);
         // = new DataBase(this); //création dataBase
 
@@ -67,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         //b1=(Button)findViewById(R.id.button);
 
 
-        bt_go.setOnClickListener(new View.OnClickListener() {
+        btn_go.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -86,10 +95,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        btn_register.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startActivity(new Intent(MainActivity.this,SignUpActivity.class));
+            }
+
+        });
+
         //tester ...
         //dataBase.close();
 
-        /*bt_go.setOnClickListener(new View.OnClickListener() {
+        /*btn_go.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
