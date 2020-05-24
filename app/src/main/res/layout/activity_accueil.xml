@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context="views.Accueil">
 
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="273dp"
@@ -18,15 +19,16 @@
         android:textSize="30sp"
         app:fontFamily="sans-serif-smallcaps"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />l
+
 
     <TextView
         android:id="@+id/text_AllChallenge"
-        android:layout_width="254dp"
-        android:layout_height="429dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="188dp"
+        android:layout_width="259dp"
+        android:layout_height="138dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="452dp"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -128,4 +128,18 @@ public class DataBase extends SQLiteOpenHelper {
         cus.close();
         return liste;
     }
+
+    public void addNewUser(String login, String email, String pwd){
+
+        String req1 = "INSERT INTO User (login, email, password, level) VALUES (\" " + login +"\",\""+ email +"\",\""+ pwd +"\",1);";
+        this.getWritableDatabase().execSQL(req1);
+
+    }
+
+    public Object getUser(){
+
+        return null;
+
+    }
+
 }

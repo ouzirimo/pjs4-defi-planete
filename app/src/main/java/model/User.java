@@ -1,6 +1,7 @@
 package model;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 public class User {
     private static final int VERSION = 1;
@@ -9,6 +10,8 @@ public class User {
     private String password;
     private long level;
     private LinkedList <challengePivot> backpack;
+
+    //j'aurais crée directement une classe backpack avec une liste de challengesDone et la liste des 4 à réaliser
 
     public User(String login, String email, String password) {
         this.login = login;
@@ -53,5 +56,22 @@ public class User {
             }
         }
         return null;
+    }
+
+    /**
+     * generate random challenge when one challenge is done or if it's a new user
+     * verifiy with a condition before to call this method
+     * @author dedeyyy
+     */
+    public void generateRandomChallenge(int nbMax){
+
+
+        int idRandomChallenge = new Random().nextInt(nbMax + 1);
+        /*
+            Récup ensuite le challenge à partir de son id qui sera égal au nb tiré au hasard
+         */
+        //vérifier s'il n'existe pas déjà dans la backpack du user sinon recommancer (pas besoins à l'insciption d'un nouveau user)
+        //seulement besoin lorsque il y a déjà eu des chaenge avant soit quand c pour remplacer un challenge abandonné ou réussit
+
     }
 }
