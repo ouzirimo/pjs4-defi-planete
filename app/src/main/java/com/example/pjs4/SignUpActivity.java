@@ -14,9 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import model.FireBase;
 import model.User;
 import views.Accueil;
@@ -26,7 +23,6 @@ public class SignUpActivity extends AppCompatActivity {
     Button btnRegister;
     String email,login,pass,conPass;
 
-    private FirebaseAuth mAuth;
     SharedPreferences sharedpreferences;
     private FireBase db = new FireBase();
 
@@ -39,7 +35,6 @@ public class SignUpActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
-        mAuth = FirebaseAuth.getInstance();
         sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         etEmail = findViewById(R.id.input_mail);
@@ -62,15 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
     }
-
-    private void updateUI(FirebaseUser currentUser) {
-
-    }
-
 
     public void initialize(){
             email= etEmail.getText().toString();
@@ -115,7 +102,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         public void onSignUpSuccess(){
-            mAuth.createUserWithEmailAndPassword(email, pass);
             db.addNewUser(login, email);
             User u = new User(login, email, pass);
 
