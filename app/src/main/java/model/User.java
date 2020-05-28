@@ -28,6 +28,7 @@ public class User {
     /**
      * add a challenge to user's backpack
      * @param challenge
+     * @author Noelle et Gaelle
      */
     public void addChallenge(Challenge challenge){
         challengePivot object = new challengePivot(challenge); //create link between User and Challenge
@@ -37,6 +38,7 @@ public class User {
     /**
      *  set a challenge done
      * @param challenge
+     * @author Noelle et Gaelle
      */
     public void challengeDone(Challenge challenge){
         challengePivot bag = backpack.get(challenge.getId_challenge());
@@ -46,19 +48,12 @@ public class User {
     }
 
     /**
-     * generate random challenge when one challenge is done or if it's a new user
-     * verifiy with a condition before to call this method
-     * @author dedeyyy
+     *  return true if challenge already exist in backpack
+     * @param idChallenge
+     * @author Noelle et Gaelle
      */
-    public void generateRandomChallenge(int nbMax){
-
-
-        int idRandomChallenge = new Random().nextInt(nbMax + 1);
-        /*
-            Récup ensuite le challenge à partir de son id qui sera égal au nb tiré au hasard
-         */
-        //vérifier s'il n'existe pas déjà dans la backpack du user sinon recommancer (pas besoins à l'insciption d'un nouveau user)
-        //seulement besoin lorsque il y a déjà eu des chaenge avant soit quand c pour remplacer un challenge abandonné ou réussit
-
+    public boolean containsChallenge(int idChallenge){
+        return backpack.containsKey(idChallenge);
     }
+
 }

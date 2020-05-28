@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import model.Challenge;
+import model.DataBase;
 import model.User;
 import views.Accueil;
 
@@ -21,6 +24,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etEmail,etPassword,etLogin,etConPass;
     Button btnRegister;
     String email,login,pass,conPass;
+    final int nbChallenge = 4;
 
     SharedPreferences sharedpreferences;
 
@@ -64,6 +68,15 @@ public class SignUpActivity extends AppCompatActivity {
             conPass=etConPass.getText().toString();
         }
 
+    public void register (){
+        initialize();
+        if(!validate()){
+            Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
+        }else{
+            onSignUpSuccess();
+        }
+
+    }
         public boolean validate(){
             boolean valid = true;
             if(login.isEmpty()){
@@ -97,38 +110,29 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         public void onSignUpSuccess(){
-            User u = new User(login, email, pass);
-
-            //générer 4 challenges aléatoirement... avec la cathégorie en paramètre pour le moment rien et connâitre le nombre de challenge en général
-            /*
-                10 est prit au hasard comme s'il y avait max 10 challaenge dans la base pour tirer ensite un nombre entre 0 et 10
-                dans la table et récup le challenge grâce à son id = nb tiré au hasard
-             */
-            int nbLignesDansLaTableChallenge = 10; //permet de générer le nombre random ici exemple
-
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-
-
+            User user = new User(login, email, pass);
+            //variable Session
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString("nameKey", login);
             editor.putString("pwdKey", pass);
             editor.commit();
 
+            DataBase database = MainActivity.getDataBase();
+
+            //set random challenge
+            int cpt_challenge = nbChallenge;
+            Challenge challenge = null;
+            while(cpt_challenge>0){
+                challenge = database.getRandomChallenge();
+                if (!user.containsChallenge(challenge.getId_challenge())){
+                    user.addChallenge(challenge);
+                    cpt_challenge = cpt_challenge -1;
+                }
+            }
+
+            //view changement
             Intent in = new Intent(SignUpActivity.this, Accueil.class);
             startActivity(in);
-        }
-
-        public void register (){
-        initialize();
-        if(!validate()){
-            Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
-        }else{
-            onSignUpSuccess();
-        }
-
         }
 
 }

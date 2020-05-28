@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private static DataBase dataBase;
     private EditText ed1, ed2;
 
-    //rajouter les input??
-
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Name = "nameKey";
     public static final String Pwd = "pwdKey";

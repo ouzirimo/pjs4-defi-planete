@@ -8,6 +8,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import model.Challenge;
 
 public class DataBase extends SQLiteOpenHelper {
@@ -65,6 +67,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(req1);
         db.execSQL(req2);
         db.execSQL(req3);
+        db.execSQL("INSERT INTO Challenge (id_challenge,name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (4,\"Utiliser une gourde en inox ou en verre\",\"Apportez votre gourde pour éviter d'utiliser des bouteilles en plastiques.\",\"Lifestyle\",5);");
 
         Log.i(null, "input user");
         req1 = "INSERT INTO User (id_user,login, email, password, level) VALUES (1,\"Bobette\",\"bobobette@gmail.com\",\"bob\",0);";
@@ -172,5 +175,29 @@ public class DataBase extends SQLiteOpenHelper {
         cursor_challenge.close();
         cursor.close();
         return user;
+    }
+
+    public Challenge getRandomChallenge(){
+        //query
+        String req = "SELECT * From Challenge ;";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(req,null); //execute the query
+        cursor.moveToFirst();
+
+        int nbMax =cursor.getCount();
+
+        int idRandomChallenge = new Random().nextInt(nbMax+1);
+        if (idRandomChallenge ==0){
+            idRandomChallenge =1;
+        }
+
+        req = "SELECT * From Challenge where id_challenge=? ;";
+        cursor = db.rawQuery(req, new String[]{String.valueOf(idRandomChallenge)}); //execute the query
+        cursor.moveToFirst();
+        Challenge challenge = new Challenge(cursor.getInt(0),
+                cursor.getString(1),cursor.getString(2),
+                cursor.getString(3),cursor.getInt(4));
+        cursor.close();
+        return challenge;
     }
 }
