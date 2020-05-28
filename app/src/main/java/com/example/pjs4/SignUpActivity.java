@@ -78,8 +78,8 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
 
-            else if(pass.isEmpty()){
-                etPassword.setError("mot de passe manquant");
+            else if(pass.length()<6){
+                etPassword.setError("Le mot de passe doit contenir au moins 6 caractères");
                 etPassword.requestFocus();
                 valid =false;
             }
