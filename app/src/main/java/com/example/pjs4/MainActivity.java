@@ -18,13 +18,13 @@ import views.Accueil;
 public class MainActivity extends AppCompatActivity {
 
     private Button btn_go, btn_register;
-    private DataBase dataBase;
+    private static DataBase dataBase;
     private EditText ed1, ed2;
 
     //rajouter les input??
 
     public static final String MyPREFERENCES = "MyPrefs" ;
-    public static final String Name = "nameKey"; //pk mettre ici le name et mdp comme il est déjà dans la classe user car var session?
+    public static final String Name = "nameKey";
     public static final String Pwd = "pwdKey";
     SharedPreferences sharedpreferences;
 
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(Name, login);
                     editor.putString(Pwd, pwd);
-
                     editor.commit();
 
                     //clear textbox
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         });*/
     }
 
-    public DataBase getDataBase() {
+    public static DataBase getDataBase() {
         return dataBase;
     }
 
