@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,33 +64,36 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String n = ed1.getText().toString(); //quel pb???
-                String pwd = ed2.getText().toString();
+                final String n = ed1.getText().toString(); //quel pb???
+                final String pwd = ed2.getText().toString();
 
-//                mAuth.signInWithEmailAndPassword(n, pwd)
-//                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                if (task.isSuccessful()) {
-//                                    // Sign in success
-//
-//                                } else {
-//                                    // If sign in fails, display a message to the user.
-//
-//                                    Toast.makeText(MainActivity.this, "Authentication failed.",
-//                                            Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
 
-                SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                editor.putString(Name, n);
-                editor.putString(Pwd, pwd);
-                editor.commit();
+                mAuth.signInWithEmailAndPassword(n, pwd)
+                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success
+                                    Log.d("Authentication", "Success");
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                Intent in = new Intent(MainActivity.this, Accueil.class);
-                startActivity(in);
+                                    editor.putString(Name, n);
+                                    editor.putString(Pwd, pwd);
+                                    editor.commit();
+
+                                    Intent in = new Intent(MainActivity.this, Accueil.class);
+                                    startActivity(in);
+
+
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.d("Authentication", "Failed");
+                                    Toast.makeText(MainActivity.this, "Authentification échouée",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
@@ -105,10 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private String getMail(String login){
 
 
-
-
+        return null;
+    }
 
         //AllChallenge = (TextView) findViewById(R.id.AllChallenge);
         // = new DataBase(this); //création dataBase

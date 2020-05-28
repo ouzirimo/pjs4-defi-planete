@@ -48,5 +48,9 @@ public class FireBase {
                 });
     }
 
+    public String getMail (String login){
+        return null;
+    }
+
 
 }
