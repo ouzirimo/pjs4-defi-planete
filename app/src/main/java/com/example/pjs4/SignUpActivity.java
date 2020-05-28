@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import model.FireBase;
 import model.User;
 import views.Accueil;
 
@@ -24,7 +23,6 @@ public class SignUpActivity extends AppCompatActivity {
     String email,login,pass,conPass;
 
     SharedPreferences sharedpreferences;
-    private FireBase db = new FireBase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +62,6 @@ public class SignUpActivity extends AppCompatActivity {
             login = etLogin.getText().toString();
             pass = etPassword.getText().toString();
             conPass=etConPass.getText().toString();
-
         }
 
         public boolean validate(){
@@ -73,7 +70,6 @@ public class SignUpActivity extends AppCompatActivity {
                 etLogin.setError("Login manquant");
                 etLogin.requestFocus();
                 valid =false;
-
             }
 
             else if(pass.isEmpty()){
@@ -95,14 +91,12 @@ public class SignUpActivity extends AppCompatActivity {
                 etEmail.setError("Email manquant/incorrect");
                 etEmail.requestFocus();
                 valid =false;
-
             }
 
             return valid;
         }
 
         public void onSignUpSuccess(){
-            db.addNewUser(login, email);
             User u = new User(login, email, pass);
 
             //générer 4 challenges aléatoirement... avec la cathégorie en paramètre pour le moment rien et connâitre le nombre de challenge en général
@@ -117,7 +111,6 @@ public class SignUpActivity extends AppCompatActivity {
             u.generateRandomChallenge(nbLignesDansLaTableChallenge);
             u.generateRandomChallenge(nbLignesDansLaTableChallenge);
 
-            db.getAllDocumentTest();
 
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString("nameKey", login);
