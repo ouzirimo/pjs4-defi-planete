@@ -1,11 +1,13 @@
 package com.example.pjs4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,10 +32,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     SharedPreferences sharedpreferences;
-    private FireBase db = new FireBase();
+    private FireBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        db = new FireBase();
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -114,26 +121,41 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         public void onSignUpSuccess(){
-            mAuth.createUserWithEmailAndPassword(email, pass);
-
-            db.addNewUser(login, email);
-
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString("nameKey", login);
-            editor.putString("pwdKey", pass);
-            editor.commit();
-
             Intent in = new Intent(SignUpActivity.this, Accueil.class);
             startActivity(in);
         }
 
         public void register (){
-        initialize();
-        if(!validate()){
-            Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
-        }else{
-            onSignUpSuccess();
-        }
+            initialize();
+            if(!validate()){
+                Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
+            }else{
+
+                mAuth.createUserWithEmailAndPassword(email, pass)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            //Firebase Sign in success
+
+                                            db.addNewUser(login, email);
+
+                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                            editor.putString("nameKey", login);
+                                            editor.putString("pwdKey", pass);
+                                            editor.commit();
+
+
+                                            onSignUpSuccess();
+
+                                        } else {
+                                            Toast.makeText(SignUpActivity.this,"L'adresse mail que vous tentez d'utiliser est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
+            }
 
         }
 

@@ -7,8 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import model.DataBase;
 import views.Accueil;
@@ -24,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Name = "nameKey"; //pk mettre ici le name et mdp comme il est déjà dans la classe user car var session?
     public static final String Pwd = "pwdKey";
+    private FirebaseAuth mAuth;
     SharedPreferences sharedpreferences;
 
     public MainActivity(){
@@ -35,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        mAuth = FirebaseAuth.getInstance();
 
         if (sharedpreferences.getString(Name, null) != null) {
             Intent in = new Intent(MainActivity.this, Accueil.class);
@@ -55,6 +65,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String n = ed1.getText().toString(); //quel pb???
                 String pwd = ed2.getText().toString();
+
+//                mAuth.signInWithEmailAndPassword(n, pwd)
+//                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                if (task.isSuccessful()) {
+//                                    // Sign in success
+//
+//                                } else {
+//                                    // If sign in fails, display a message to the user.
+//
+//                                    Toast.makeText(MainActivity.this, "Authentication failed.",
+//                                            Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
 

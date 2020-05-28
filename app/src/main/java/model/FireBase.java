@@ -20,7 +20,7 @@ public class FireBase {
 
     public FireBase(){
         db = FirebaseFirestore.getInstance();
-        TAG = "Jsp à quoi ca sert";
+        TAG = "Wrinting firestore db";
     }
 
     public void addNewUser(String login, String mail){
@@ -32,19 +32,21 @@ public class FireBase {
         user.put("Mail", mail);
         user.put("Register Date", calendar.getTime());
 
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("Users").document(login)
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+                        Log.w(TAG, "Error writing document", e);
                     }
                 });
     }
+
+
 }
