@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import model.User;
+import views.Accueil;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -57,7 +60,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
             register();
@@ -83,7 +85,6 @@ public class SignUpActivity extends AppCompatActivity {
             login = etLogin.getText().toString();
             pass = etPassword.getText().toString();
             conPass=etConPass.getText().toString();
-
         }
 
         public boolean validate(){
@@ -92,7 +93,6 @@ public class SignUpActivity extends AppCompatActivity {
                 etLogin.setError("Login manquant");
                 etLogin.requestFocus();
                 valid =false;
-
             }
 
             else if(pass.length()<6){
@@ -114,7 +114,6 @@ public class SignUpActivity extends AppCompatActivity {
                 etEmail.setError("Email manquant/incorrect");
                 etEmail.requestFocus();
                 valid =false;
-
             }
 
             return valid;
@@ -123,9 +122,35 @@ public class SignUpActivity extends AppCompatActivity {
         public void onSignUpSuccess(){
             Intent in = new Intent(SignUpActivity.this, Accueil.class);
             startActivity(in);
+            User u = new User(login, email, pass);
+
+            //générer 4 challenges aléatoirement... avec la cathégorie en paramètre pour le moment rien et connâitre le nombre de challenge en général
+            /*
+                10 est prit au hasard comme s'il y avait max 10 challaenge dans la base pour tirer ensite un nombre entre 0 et 10
+                dans la table et récup le challenge grâce à son id = nb tiré au hasard
+             */
+            int nbLignesDansLaTableChallenge = 10; //permet de générer le nombre random ici exemple
+
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+
+
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString("nameKey", login);
+            editor.putString("pwdKey", pass);
+            editor.commit();
+
         }
 
         public void register (){
+        initialize();
+        if(!validate()){
+            Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
+        }else{
+            onSignUpSuccess();
+        }
             initialize();
             if(!validate()){
                 Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();

@@ -1,19 +1,24 @@
 package model;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class User {
     private static final int VERSION = 1;
     private String login;
     private String email;
     private String password;
-    private LinkedList <Backpack> backpack;
+    private long level;
+    private HashMap<Integer,challengePivot> backpack;
+
+    //j'aurais crée directement une classe backpack avec une liste de challengesDone et la liste des 4 à réaliser
 
     public User(String login, String email, String password) {
         this.login = login;
         this.email = email;
         this.password = password;
-        this.backpack = new LinkedList<>();
+        this.backpack = new HashMap<>();
     }
 
     public String getLogin() {
@@ -25,8 +30,8 @@ public class User {
      * @param challenge
      */
     public void addChallenge(Challenge challenge){
-        Backpack object = new Backpack(challenge);
-        this.backpack.add(object);
+        challengePivot object = new challengePivot(challenge); //create link between User and Challenge
+        this.backpack.put(challenge.getId_challenge(),object); //add this link to User's list
     }
 
     /**
@@ -34,23 +39,26 @@ public class User {
      * @param challenge
      */
     public void challengeDone(Challenge challenge){
-        Backpack bag = searchBackpack(challenge);
+        challengePivot bag = backpack.get(challenge.getId_challenge());
         if(bag != null) {
             bag.setDone(true);
         }
     }
 
     /**
-     * search the challenge in the list of backpack
-     * @param challenge
-     * @return backpack linked to challenge
+     * generate random challenge when one challenge is done or if it's a new user
+     * verifiy with a condition before to call this method
+     * @author dedeyyy
      */
-    public Backpack searchBackpack(Challenge challenge){
-        for(Backpack b : backpack){
-            if (b.getChallenge().equals(challenge)){
-                return b;
-            }
-        }
-        return null;
+    public void generateRandomChallenge(int nbMax){
+
+
+        int idRandomChallenge = new Random().nextInt(nbMax + 1);
+        /*
+            Récup ensuite le challenge à partir de son id qui sera égal au nb tiré au hasard
+         */
+        //vérifier s'il n'existe pas déjà dans la backpack du user sinon recommancer (pas besoins à l'insciption d'un nouveau user)
+        //seulement besoin lorsque il y a déjà eu des chaenge avant soit quand c pour remplacer un challenge abandonné ou réussit
+
     }
 }

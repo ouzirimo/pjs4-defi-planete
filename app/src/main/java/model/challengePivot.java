@@ -5,11 +5,11 @@ package model;
  * @author Gaëlle & Noëlle
  * @version 1.0
  */
-public class Backpack {
+public class challengePivot {
     private Challenge challenge;
     private boolean done;
 
-    public Backpack(Challenge challenge) {
+    public challengePivot(Challenge challenge) {
         this.challenge = challenge;
     }
 
