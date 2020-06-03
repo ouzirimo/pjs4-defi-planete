@@ -7,29 +7,47 @@
     android:layout_height="match_parent"
     tools:context="views.Accueil">
 
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="273dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Voici la liste des Challenges"
-        android:textSize="30sp"
-        app:fontFamily="sans-serif-smallcaps"
+    <Button
+        android:id="@+id/btn_actu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="664dp"
+        android:layout_marginEnd="299dp"
+        android:layout_marginRight="299dp"
+        android:layout_marginBottom="19dp"
+        android:text="Actu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />l
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:id="@+id/text_AllChallenge"
-        android:layout_width="259dp"
-        android:layout_height="138dp"
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="452dp"
-        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:onClick="logout"
+        android:text="Logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="664dp"
+        android:layout_marginEnd="139dp"
+        android:layout_marginRight="139dp"
+        android:layout_marginBottom="19dp"
+        android:text="challenges"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,23 +55,60 @@
         android:id="@+id/session_name"
         android:layout_width="130dp"
         android:layout_height="34dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginStart="264dp"
+        android:layout_marginLeft="264dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/bt_logout"
+        android:id="@+id/btn_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="304dp"
-        android:layout_marginLeft="304dp"
-        android:layout_marginTop="56dp"
-        android:text="Logout"
-        android:onClick="logout"
+        android:layout_marginStart="296dp"
+        android:layout_marginLeft="296dp"
+        android:layout_marginTop="664dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
+        android:layout_marginBottom="19dp"
+        android:text="friend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="590dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="73dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/carouselView"
+                android:paddingStart="80dp"
+                android:paddingEnd="80dp"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
