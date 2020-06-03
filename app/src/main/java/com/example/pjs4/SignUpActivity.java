@@ -1,12 +1,13 @@
 package com.example.pjs4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -15,21 +16,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import model.Challenge;
-import model.DataBase;
 import model.User;
+import views.Accueil;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import model.FireBase;
 import views.Accueil;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText etEmail,etPassword,etLogin,etConPass;
     Button btnRegister;
     String email,login,pass,conPass;
-    final int nbChallenge = 4;
 
+    private FirebaseAuth mAuth;
     SharedPreferences sharedpreferences;
+    private FireBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        db = new FireBase();
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -37,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
+        mAuth = FirebaseAuth.getInstance();
         sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         etEmail = findViewById(R.id.input_mail);
@@ -48,7 +60,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
             register();
@@ -59,7 +70,15 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
+
+    private void updateUI(FirebaseUser currentUser) {
+
+    }
+
 
     public void initialize(){
             email= etEmail.getText().toString();
@@ -68,15 +87,6 @@ public class SignUpActivity extends AppCompatActivity {
             conPass=etConPass.getText().toString();
         }
 
-    public void register (){
-        initialize();
-        if(!validate()){
-            Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
-        }else{
-            onSignUpSuccess();
-        }
-
-    }
         public boolean validate(){
             boolean valid = true;
             if(login.isEmpty()){
@@ -85,8 +95,8 @@ public class SignUpActivity extends AppCompatActivity {
                 valid =false;
             }
 
-            else if(pass.isEmpty()){
-                etPassword.setError("mot de passe manquant");
+            else if(pass.length()<6){
+                etPassword.setError("Le mot de passe doit contenir au moins 6 caractères");
                 etPassword.requestFocus();
                 valid =false;
             }
@@ -110,29 +120,68 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         public void onSignUpSuccess(){
-            User user = new User(login, email, pass);
-            //variable Session
+            Intent in = new Intent(SignUpActivity.this, Accueil.class);
+            startActivity(in);
+            User u = new User(login, email, pass);
+
+            //générer 4 challenges aléatoirement... avec la cathégorie en paramètre pour le moment rien et connâitre le nombre de challenge en général
+            /*
+                10 est prit au hasard comme s'il y avait max 10 challaenge dans la base pour tirer ensite un nombre entre 0 et 10
+                dans la table et récup le challenge grâce à son id = nb tiré au hasard
+             */
+            int nbLignesDansLaTableChallenge = 10; //permet de générer le nombre random ici exemple
+
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
+
+
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString("nameKey", login);
             editor.putString("pwdKey", pass);
             editor.commit();
 
-            DataBase database = MainActivity.getDataBase();
+        }
 
-            //set random challenge
-            int cpt_challenge = nbChallenge;
-            Challenge challenge = null;
-            while(cpt_challenge>0){
-                challenge = database.getRandomChallenge();
-                if (!user.containsChallenge(challenge.getId_challenge())){
-                    user.addChallenge(challenge);
-                    cpt_challenge = cpt_challenge -1;
-                }
+        public void register (){
+        initialize();
+        if(!validate()){
+            Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
+        }else{
+            onSignUpSuccess();
+        }
+            initialize();
+            if(!validate()){
+                Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
+            }else{
+
+                mAuth.createUserWithEmailAndPassword(email, pass)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            //Firebase Sign in success
+
+                                            db.addNewUser(login, email);
+
+                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                            editor.putString("nameKey", login);
+                                            editor.putString("pwdKey", pass);
+                                            editor.commit();
+
+
+                                            onSignUpSuccess();
+
+                                        } else {
+                                            Toast.makeText(SignUpActivity.this,"L'adresse mail que vous tentez d'utiliser est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
             }
 
-            //view changement
-            Intent in = new Intent(SignUpActivity.this, Accueil.class);
-            startActivity(in);
         }
 
 }

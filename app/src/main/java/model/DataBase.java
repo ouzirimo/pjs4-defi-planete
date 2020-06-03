@@ -12,7 +12,8 @@ import java.util.Random;
 
 import model.Challenge;
 
-public class DataBase extends SQLiteOpenHelper {
+public class
+DataBase extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "dbECOLO";
     private static final int VERSION = 1;
