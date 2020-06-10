@@ -4,9 +4,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,6 +46,28 @@ public class FireBase {
                         Log.w("Wrinting firestore db", "Error writing document", e);
                     }
                 });
+    }
+
+    public HashMap getAllChallenges(){
+
+        HashMap map = new HashMap();
+
+        db.collection("challenge")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Get challenges", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("Get challenges", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        return map;
     }
     
 }
