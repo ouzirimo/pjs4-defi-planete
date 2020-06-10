@@ -100,7 +100,7 @@ public class Accueil extends AppCompatActivity {
             viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
         }
     };*/
-    }
+
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();
         this.finish();
