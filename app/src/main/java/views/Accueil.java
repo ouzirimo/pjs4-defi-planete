@@ -16,12 +16,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.pjs4.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.pjs4.R;
 import com.example.pjs4.SignUpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import model.DataBase;
 import model.User;
@@ -31,6 +34,8 @@ public class Accueil extends AppCompatActivity {
     private DataBase dataBase;
     private Button btn_logout;
     private TextView txt_name;
+    private String uName;
+    private String uPass;
     private User user;
 
     private ViewPager2 viewPager2;
@@ -41,17 +46,17 @@ public class Accueil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
-        btn_logout = (Button) findViewById(R.id.btn_logout);
-        txt_name = (TextView) findViewById(R.id.session_name);
+        btn_logout = findViewById(R.id.btn_logout);
+        txt_name = findViewById(R.id.session_name);
 
-        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (fbUser != null) {
+            uName = fbUser.getDisplayName();
+        }
 
         //User Information
-        String userName = sharedpreferences.getString("nameKey", null);
-        String userPwd = sharedpreferences.getString("pwdKey", null);
-        DataBase database = MainActivity.getDataBase();
-        User user = database.getUser(userName, userPwd);
-        txt_name.append(userName);
+        txt_name.append(uName);
+    }
 
         //Carousel
        /* viewPager2 = findViewById(R.id.carouselView);
@@ -97,10 +102,7 @@ public class Accueil extends AppCompatActivity {
     };*/
     }
     public void logout(View view){
-        SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.clear();
-        editor.commit();
+        FirebaseAuth.getInstance().signOut();
         this.finish();
     }
 }

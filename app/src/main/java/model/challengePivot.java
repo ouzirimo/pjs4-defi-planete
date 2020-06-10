@@ -2,8 +2,6 @@ package model;
 
 /**
  * Backpack class link challenge object to User object
- * @author Gaëlle & Noëlle
- * @version 1.0
  */
 public class challengePivot {
     private Challenge challenge;
