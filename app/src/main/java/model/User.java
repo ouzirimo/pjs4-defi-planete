@@ -45,6 +45,8 @@ public class User {
         }
     }
 
+
+
     /**
      * generate random challenge when one challenge is done or if it's a new user
      * verifiy with a condition before to call this method

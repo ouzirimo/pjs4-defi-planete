@@ -44,31 +44,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/emma" />
 
-
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginTop="15dp"
-                android:text="Level"
-                android:textSize="25dp" />
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/carouselView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="80dp"
-                android:paddingEnd="80dp">
-
-            </androidx.viewpager2.widget.ViewPager2>
-        </LinearLayout>-->
-
         <TextView
             android:id="@+id/textView8"
             android:layout_width="match_parent"
@@ -76,12 +51,19 @@
             android:layout_marginTop="187dp"
             android:layout_marginBottom="510dp"
             android:gravity="center"
-            android:text="5"
+            android:text="Score"
             android:textSize="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"

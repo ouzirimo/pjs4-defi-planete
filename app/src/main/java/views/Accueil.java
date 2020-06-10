@@ -27,13 +27,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pjs4.R;
 import com.example.pjs4.SignUpActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.ArrayList;
-import java.util.List;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import model.DataBase;
+import model.FireBase;
 import model.User;
 
 public class Accueil extends AppCompatActivity {
@@ -46,7 +48,7 @@ public class Accueil extends AppCompatActivity {
     private User user;
 
     private ViewPager2 viewPager2;
-    private Handler sliderHandle = new Handler();
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,54 +65,11 @@ public class Accueil extends AppCompatActivity {
 
         //User Information
         txt_name.append(uName);
-    }
-
-        //Carousel
-       /* viewPager2 = findViewById(R.id.carouselView);
-        final List<SliderItem> sliderItem = new ArrayList<>();
-        sliderItem.add(new SliderItem(R.drawable.img1));
-        sliderItem.add(new SliderItem(R.drawable.img2));
-        sliderItem.add(new SliderItem(R.drawable.test));
-
-        viewPager2.setAdapter(new SliderAdapter(sliderItem, viewPager2));
-
-        viewPager2.setClipToPadding(false);
-        viewPager2.setClipChildren(false);
-        viewPager2.setOffscreenPageLimit(3);
-        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r + 0.15f);
-            }
-        });
-
-        viewPager2.setPageTransformer(compositePageTransformer);
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                sliderHandle.removeCallbacks(sliderRunnable);
-                sliderHandle.postDelayed(sliderRunnable, 3000);
-            }
-        });
-    }
-
-    //Effet supplémentaires carousel
-    private Runnable sliderRunnable = new Runnable() {
-        @Override
-        public void run() {
-            viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
-        }
-    };*/
 
 
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setOnNavigationItemSelectedListener(navListener);
+
 
     }
 
@@ -139,5 +98,17 @@ public class Accueil extends AppCompatActivity {
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();
         this.finish();
+    }
+
+    /**
+     * Show all challenges of the data base from fire base
+     */
+    public void showAllChallenge(){
+
+        HashMap map = new HashMap();
+        FireBase f = new FireBase();
+        map = f.getAllChallenges();
+
+
     }
 }
