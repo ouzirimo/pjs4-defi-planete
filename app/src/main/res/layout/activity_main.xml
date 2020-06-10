@@ -42,7 +42,7 @@
         android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/textView2"
         app:layout_constraintLeft_toLeftOf="@id/input_login"
-        android:text="Login" />
+        android:text="Mail" />
 
     <TextView
         android:textColor="@color/colorPrimary"
