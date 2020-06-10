@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.pjs4.MainActivity;
 import com.example.pjs4.R;
+import com.example.pjs4.SignUpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class Accueil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
-        btn_logout =(Button)findViewById(R.id.btn_logout);
+        btn_logout = (Button) findViewById(R.id.btn_logout);
         txt_name = (TextView) findViewById(R.id.session_name);
 
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
@@ -52,7 +54,7 @@ public class Accueil extends AppCompatActivity {
         txt_name.append(userName);
 
         //Carousel
-        viewPager2 = findViewById(R.id.carouselView);
+       /* viewPager2 = findViewById(R.id.carouselView);
         final List<SliderItem> sliderItem = new ArrayList<>();
         sliderItem.add(new SliderItem(R.drawable.img1));
         sliderItem.add(new SliderItem(R.drawable.img2));
@@ -92,8 +94,8 @@ public class Accueil extends AppCompatActivity {
         public void run() {
             viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
         }
-    };
-
+    };*/
+    }
     public void logout(View view){
         SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
