@@ -6,21 +6,17 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FireBase {
     FirebaseFirestore db;
-    private final String TAG;
 
     public FireBase(){
         db = FirebaseFirestore.getInstance();
-        TAG = "Wrinting firestore db";
     }
 
     public void addNewUser(String login, String mail){
@@ -37,20 +33,15 @@ public class FireBase {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
+                        Log.w("Wrinting firestore db", "Error writing document", e);
                     }
                 });
     }
-
-    public String getMail (String login){
-        return null;
-    }
-
-
+    
 }

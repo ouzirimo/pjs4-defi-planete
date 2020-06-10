@@ -1,11 +1,6 @@
 package com.example.pjs4;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -16,17 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import model.User;
-import views.Accueil;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import model.FireBase;
-import views.Accueil;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText etEmail,etPassword,etLogin,etConPass;
@@ -34,7 +29,6 @@ public class SignUpActivity extends AppCompatActivity {
     String email,login,pass,conPass;
 
     private FirebaseAuth mAuth;
-    SharedPreferences sharedpreferences;
     private FireBase db;
 
     @Override
@@ -49,7 +43,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         mAuth = FirebaseAuth.getInstance();
-        sharedpreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         etEmail = findViewById(R.id.input_mail);
         etPassword = findViewById(R.id.input_mdp);
@@ -62,126 +55,121 @@ public class SignUpActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            register();
+                register();
             }
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
+    private void updateUI(FirebaseUser user) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(login)
+                .build();
 
-    private void updateUI(FirebaseUser currentUser) {
-
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("Update user profile :", "User profile updated.");
+                        }
+                    }
+                });
     }
 
 
     public void initialize(){
-            email= etEmail.getText().toString();
-            login = etLogin.getText().toString();
-            pass = etPassword.getText().toString();
-            conPass=etConPass.getText().toString();
+        email= etEmail.getText().toString();
+        login = etLogin.getText().toString();
+        pass = etPassword.getText().toString();
+        conPass=etConPass.getText().toString();
+    }
+
+    public boolean validate(){
+        boolean valid = true;
+        if(login.isEmpty()){
+            etLogin.setError("Login manquant");
+            etLogin.requestFocus();
+            valid =false;
         }
 
-        public boolean validate(){
-            boolean valid = true;
-            if(login.isEmpty()){
-                etLogin.setError("Login manquant");
-                etLogin.requestFocus();
-                valid =false;
-            }
-
-            else if(pass.length()<6){
-                etPassword.setError("Le mot de passe doit contenir au moins 6 caractères");
-                etPassword.requestFocus();
-                valid =false;
-            }
-            else if(conPass.isEmpty()) {
-                etConPass.setError("Confirmez votre mot de passe");
-                etConPass.requestFocus();
-                valid =false;
-            }
-            else if (!pass.equals(conPass)){
-                etConPass.setError("Les mots de passe ne correspondent pas ");
-                etConPass.requestFocus();
-                valid =false;
-            }
-            else if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                etEmail.setError("Email manquant/incorrect");
-                etEmail.requestFocus();
-                valid =false;
-            }
-
-            return valid;
+        else if(pass.length()<6){
+            etPassword.setError("Le mot de passe doit contenir au moins 6 caractères");
+            etPassword.requestFocus();
+            valid =false;
+        }
+        else if(conPass.isEmpty()) {
+            etConPass.setError("Confirmez votre mot de passe");
+            etConPass.requestFocus();
+            valid =false;
+        }
+        else if (!pass.equals(conPass)){
+            etConPass.setError("Les mots de passe ne correspondent pas ");
+            etConPass.requestFocus();
+            valid =false;
+        }
+        else if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            etEmail.setError("Email manquant/incorrect");
+            etEmail.requestFocus();
+            valid =false;
         }
 
-        public void onSignUpSuccess(){
-            Intent in = new Intent(SignUpActivity.this, Accueil.class);
-            startActivity(in);
-            User u = new User(login, email, pass);
+        return valid;
+    }
 
-            //générer 4 challenges aléatoirement... avec la cathégorie en paramètre pour le moment rien et connâitre le nombre de challenge en général
-            /*
-                10 est prit au hasard comme s'il y avait max 10 challaenge dans la base pour tirer ensite un nombre entre 0 et 10
-                dans la table et récup le challenge grâce à son id = nb tiré au hasard
-             */
-            int nbLignesDansLaTableChallenge = 10; //permet de générer le nombre random ici exemple
+    public void openAccueil(){
+        Intent in = new Intent(SignUpActivity.this, MainActivity.class);
+        startActivity(in);
+    }
 
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-            u.generateRandomChallenge(nbLignesDansLaTableChallenge);
-
-
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString("nameKey", login);
-            editor.putString("pwdKey", pass);
-            editor.commit();
-
-        }
-
-        public void register (){
+    public void register (){
         initialize();
-        if(!validate()){
-            Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
-        }else{
+        if(validate()){
             onSignUpSuccess();
         }
-            initialize();
-            if(!validate()){
-                Toast.makeText(this,"Inscription incorrecte", Toast.LENGTH_SHORT).show();
-            }else{
-
-                mAuth.createUserWithEmailAndPassword(email, pass)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            //Firebase Sign in success
-
-                                            db.addNewUser(login, email);
-
-                                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                                            editor.putString("nameKey", login);
-                                            editor.putString("pwdKey", pass);
-                                            editor.commit();
+    }
 
 
-                                            onSignUpSuccess();
+    private void onSignUpSuccess() {
 
-                                        } else {
-                                            Toast.makeText(SignUpActivity.this,"L'adresse mail que vous tentez d'utiliser est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
+        mAuth.createUserWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("SignUp", "Success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                            db.addNewUser(login, email);
+                            FirebaseAuth.getInstance().signOut();
+                            authentication();
 
+                        } else {
+                            Toast.makeText(SignUpActivity.this,"L'adresse mail que vous tentez d'utiliser est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
-            }
+    }
 
-        }
+    private void authentication() {
+        mAuth.signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success
+                            Log.d("Authentication", "Success");
+
+                            openAccueil();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.d("Authentication", "Failed");
+                            Toast.makeText(SignUpActivity.this, "Authentification échouée",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
 }
