@@ -37,8 +37,6 @@ public class Accueil extends AppCompatActivity {
         }
 
         //User Information
-//        DataBase database = MainActivity.getDataBase();
-//        User user = database.getUser(userName, userPwd);
         txt_name.append(uName);
     }
 
