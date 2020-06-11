@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void authentication() {
+
         mAuth.signInWithEmailAndPassword(login, pwd)
                 .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -104,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+
     }
 
     private void openAccueil() {
