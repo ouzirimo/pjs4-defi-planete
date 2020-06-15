@@ -28,6 +28,7 @@ import com.example.pjs4.FilActualite;
 import com.example.pjs4.MainActivity;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pjs4.PictureActivity;
 import com.example.pjs4.R;
 import com.example.pjs4.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -82,6 +83,16 @@ public class Accueil extends AppCompatActivity {
         nav.setOnNavigationItemSelectedListener(navListener);
         showAllChallenge();
 
+        Button btn_camera = findViewById(R.id.btn_camera);
+
+        btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Accueil.this, PictureActivity.class));
+            }
+        });
+
 
     }
 
@@ -111,29 +122,6 @@ public class Accueil extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         this.finish();
     }
-
-
-
-/*
-    public String getInfoUser() {
-        DocumentReference docRef = db.collection("cities").document("SF");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d("TAG", "No such document");
-                    }
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-*/
 
     /**
      * Show all challenges of the data base from fire base

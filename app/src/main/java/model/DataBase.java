@@ -61,9 +61,9 @@ DataBase extends SQLiteOpenHelper {
 
         /*input*/
         Log.i(null, "input challenge");
-        String req1 = "INSERT INTO Challenge (id_challenge,name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (1,\"Ramasser 5 mégots\",\"Jeter dans une poubelle 5 mégots par terre. N'oubliez pas de vous laver les mains !\",\"Activité\",10);";
-        String req2 = "INSERT INTO Challenge (id_challenge,name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (2,\"Manger une salade fait maison\",\"Préparer une salade avec des légumes de saisons en évitant les salades en sachets toutes prêtes.\",\"Alimentation\",5);";
-        String req3 = "INSERT INTO Challenge (id_challenge,name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (3,\"Utiliser un mug\",\"Apportez votre mug pour éviter d'utiliser des gobelet jetables.\",\"Lifestyle\",5);";
+            String req1 = "INSERT INTO Challenge (id_challenge,name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (1,\"Ramasser 5 mégots\",\"Jeter dans une poubelle 5 mégots par terre. N'oubliez pas de vous laver les mains !\",\"Activité\",10);";
+            String req2 = "INSERT INTO Challenge (id_challenge,name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (2,\"Manger une salade fait maison\",\"Préparer une salade avec des légumes de saisons en évitant les salades en sachets toutes prêtes.\",\"Alimentation\",5);";
+            String req3 = "INSERT INTO Challenge (id_challenge,name_challenge, description_challenge, type_challenge, xp_challenge) VALUES (3,\"Utiliser un mug\",\"Apportez votre mug pour éviter d'utiliser des gobelet jetables.\",\"Lifestyle\",5);";
 
         db.execSQL(req1);
         db.execSQL(req2);
