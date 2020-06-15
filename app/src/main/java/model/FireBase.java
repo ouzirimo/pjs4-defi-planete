@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class FireBase {
     FirebaseFirestore db;
@@ -48,26 +50,12 @@ public class FireBase {
                 });
     }
 
-    public HashMap getAllChallenges(){
+    public HashMap getAllChallenges() throws ExecutionException, InterruptedException {
 
-        HashMap map = new HashMap();
+        HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
 
-        db.collection("challenge")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("Get challenges", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d("Get challenges", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
+        Log.d("Final map", map.toString());
         return map;
     }
-    
+
 }
