@@ -6,14 +6,16 @@ public class Challenge {
     private String name_challenge;
     private String description_challenge;
     private String type_challenge;
+    private String difficulty;
     private int xp_challenge;
     private String img;
 
-    public Challenge(int id, String name, String description, String type, int xp){
+    public Challenge(int id, String name, String description, String type, String difficulty, int xp){
          this.id_challenge = id;
          this.description_challenge = description;
          this.name_challenge = name;
          this.type_challenge = type;
+         this.difficulty = difficulty;
          this.xp_challenge = xp;
     }
 
@@ -31,6 +33,9 @@ public class Challenge {
 
     public String getType_challenge(){
         return this.type_challenge;
+    }
+    public String getDifficulty_challenge(){
+        return this.difficulty;
     }
 
     public int getXp_challenge(){
