@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import model.DataBase;
 import model.FireBase;
+import model.User;
 import views.Accueil;
 
 public class MainActivity extends AppCompatActivity {
