@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,7 @@ public class ProfilFragment extends Fragment {
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ArrayList<Challenge> l = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -131,6 +133,17 @@ public class ProfilFragment extends Fragment {
     }
 */
 
+    public void initTestChallenge(){
+        Challenge c = new Challenge(1, "Ramasse des bouchons", "La collecte de bouchons consiste à ramsser 100 bouchons!", "geste ecolo", "moyen", 30);
+        Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10);
+        Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50);
+
+        l.add(c);
+        l.add(c2);
+        l.add(c3);
+    }
+
+
     /**
      * Show all challenges of the data base from fire base
      */
@@ -139,29 +152,13 @@ public class ProfilFragment extends Fragment {
 
         //on suppose que c la liste récupéré grâce à la fonction de Gaelle des 4 challenges en cours
 
-        Challenge c = new Challenge(1, "Ramasse des bouchons", "La collecte de bouchons consiste à ramsser 100 bouchons!", "geste ecolo", "moyen", 30);
-        Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10);
-        Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50);
 
 
-        /**
-         * Test avec une liste de String
-         */
-
-        ArrayList<String> liste = new ArrayList<>();
-        liste.add("Ramasse des bouchons");
-        liste.add("utilise une serviette en tissu");
-        liste.add("tri collectif");
-        liste.add("Stop plastique");
-
+        initTestChallenge();
         /**
          * Test avec une liste de Challenge
          */
 
-        ArrayList<Challenge> l = new ArrayList<>();
-        l.add(c);
-        l.add(c2);
-        l.add(c3);
 
         testChallenge = root.findViewById(R.id.tv_challengeTitleInProgress1);
         testChallenge.append(l.get(0).getDifficulty_challenge());
@@ -175,13 +172,6 @@ public class ProfilFragment extends Fragment {
         tv_chal1 = root.findViewById(R.id.tv_chal1);
 
         setOnClickTest(tv_chal1, l);
-
-        /*tv_chal1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
 
        /* LinearLayout l = findViewById(R.id.layout_challenge);
 
@@ -216,6 +206,34 @@ public class ProfilFragment extends Fragment {
         bundle.putString("tv_challengeDesc", l.get(0).getDescription_challenge());
         i.putExtras(bundle);
         startActivity(i);
+
+    }
+
+    public void showChallengeDone(View v){
+        initTestChallenge();
+
+        LinearLayout lay_parent = v.findViewById(R.id.lay_parent) ;
+
+        for (Challenge c : l ){
+            LinearLayout lay_child = new LinearLayout(v.getContext());
+            lay_child.setOrientation(LinearLayout.VERTICAL);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    150, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(50,0,0,0);
+            lay_child.setLayoutParams(layoutParams);
+
+            TextView tv_title = new TextView(v.getContext());
+            tv_title.setTextSize(25);
+            tv_title.setText(c.getName_challenge());
+
+            lay_child.addView(tv_title);
+
+            lay_parent.addView(lay_child);
+
+        }
+
+
 
     }
 

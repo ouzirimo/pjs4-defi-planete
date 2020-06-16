@@ -212,9 +212,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/lay_parent">
 
-            <LinearLayout
+
+           <!-- <LinearLayout
                 android:layout_width="147dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -308,7 +310,7 @@
                     android:text="Voir le défi"
                     android:textSize="15dp"></TextView>
 
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
     </HorizontalScrollView>
 
