@@ -1,23 +1,30 @@
 package com.example.pjs4.ui.profil;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.pjs4.MainActivity;
 import com.example.pjs4.R;
+import com.example.pjs4.Root;
+import com.example.pjs4.ShowChallenge;
+import com.example.pjs4.SignUpActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,6 +48,7 @@ public class ProfilFragment extends Fragment {
     private User user;
 
     private TextView testChallenge;
+    private TextView tv_chal1; //pour tester
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,6 +56,7 @@ public class ProfilFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         profilViewModel =
                 ViewModelProviders.of(this).get(ProfilViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profil, container, false);
@@ -89,6 +98,18 @@ public class ProfilFragment extends Fragment {
                 //startActivity(new Intent(this, PictureActivity.class));
             }
         });*/
+
+        tv_chal1=root.findViewById(R.id.tv_chal1);
+
+        tv_chal1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),ShowChallenge.class);
+                startActivity(i);
+
+            }
+        });
+
         return root;
     }
 

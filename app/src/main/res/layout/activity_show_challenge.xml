@@ -7,7 +7,7 @@
     tools:context=".ShowChallenge">
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -21,11 +21,11 @@
     </TextView>
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tv_descTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Description"
-        app:layout_constraintTop_toTopOf="@id/textView11"
+        app:layout_constraintTop_toTopOf="@id/tv_title"
         android:layout_marginTop="100dp"
         android:layout_marginLeft="35dp"
         android:textSize="20dp"/>
@@ -34,30 +34,56 @@
         android:id="@+id/layoutDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/textView12"
+        app:layout_constraintTop_toTopOf="@id/tv_descTitle"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp">
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:text="Ici le descriptif du challenge" />
 
+
+
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutDesc"
+        />
 
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_galery"
         android:layout_width="94dp"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
-        android:text="Poster"
-        app:layout_constraintTop_toTopOf="@+id/layoutDesc"
+        android:text="Galerie"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp"/>
+        app:layout_constraintRight_toLeftOf="@id/btn_poster"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btn_poster"
+        android:layout_width="94dp"
+        android:layout_height="50dp"
+        android:text="Poster"
+        app:layout_constraintLeft_toRightOf="@id/btn_galery"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
