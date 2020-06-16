@@ -66,6 +66,14 @@ public class ProfilFragment extends Fragment {
             uName = fbUser.getDisplayName();
         }
 
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
         //User Information
         txt_name.append(uName);
 
@@ -85,7 +93,7 @@ public class ProfilFragment extends Fragment {
     }
 
     //voir comment utilisef cette méthode ici
-    public void logout(View view){
+    public void logout(){
         FirebaseAuth.getInstance().signOut();
         this.getActivity().finish();
     }
