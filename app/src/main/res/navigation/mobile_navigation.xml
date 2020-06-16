@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    android:label="Profil"
+    app:startDestination="@+id/navigation_Profil">
+
+    <fragment
+        android:id="@+id/navigation_Profil"
+        android:name="com.example.pjs4.ui.profil.ProfilFragment"
+        android:label="Profil"
+        tools:layout="@layout/fragment_Profil" />
+
+    <fragment
+        android:id="@+id/navigation_discover"
+        android:name="com.example.pjs4.ui.discover.DiscoverFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_discover" />
+
+    <fragment
+        android:id="@+id/navigation_Actu"
+        android:name="com.example.pjs4.ui.actu.ActuFragment"
+        android:label="Actu"
+        tools:layout="@layout/fragment_Actu" />
+</navigation>

@@ -35,7 +35,7 @@ public class PictureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
-        mStorageRef=FirebaseStorage.getInstance().getReference("Images");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 
         btn_upload=findViewById(R.id.btn_upload);
         btn_galery=findViewById(R.id.btn_galery);

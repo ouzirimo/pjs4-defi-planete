@@ -10,7 +10,7 @@ public class User {
     private String email;
     private String password;
     private long level;
-    private HashMap<Integer,challengePivot> backpack;
+    private HashMap<Integer, ChallengePivot> backpack;
 
     //j'aurais crée directement une classe backpack avec une liste de challengesDone et la liste des 4 à réaliser
 
@@ -29,21 +29,21 @@ public class User {
      * add a challenge to user's backpack
      * @param challenge
      */
-    public void addChallenge(Challenge challenge){
-        challengePivot object = new challengePivot(challenge); //create link between User and Challenge
+   /* public void addChallenge(Challenge challenge){
+        ChallengePivot object = new ChallengePivot(challenge); //create link between User and Challenge
         this.backpack.put(challenge.getId_challenge(),object); //add this link to User's list
-    }
+    } */
 
     /**
      *  set a challenge done
      * @param challenge
      */
-    public void challengeDone(Challenge challenge){
-        challengePivot bag = backpack.get(challenge.getId_challenge());
+    /*public void challengeDone(Challenge challenge){
+        ChallengePivot bag = backpack.get(challenge.getId_challenge());
         if(bag != null) {
             bag.setDone(true);
         }
-    }
+    } */
 
 
 
