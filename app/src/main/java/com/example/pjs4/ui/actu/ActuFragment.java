@@ -17,6 +17,24 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.example.pjs4.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.pjs4.PictureActivity;
 import com.example.pjs4.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -71,6 +89,16 @@ public class ActuFragment extends Fragment {
 
         showAllChallenge();
 
+        /*Button btn_camera = getView().findViewById(R.id.btn_camera);
+
+        btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //startActivity(new Intent(this, PictureActivity.class));
+            }
+        });*/
+
 
         return root;
     }
@@ -101,6 +129,7 @@ public class ActuFragment extends Fragment {
         });
     }
 */
+
 
     /**
      * Show all challenges of the data base from fire base

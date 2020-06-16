@@ -8,6 +8,7 @@ public class Challenge {
     private String type_challenge;
     private String difficulty;
     private int xp_challenge;
+    private String img;
 
     public Challenge(int id, String name, String description, String type, String difficulty, int xp){
          this.id_challenge = id;
