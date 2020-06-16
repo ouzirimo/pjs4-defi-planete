@@ -24,11 +24,12 @@ import com.google.firebase.storage.UploadTask;
 
 public class ShowChallenge extends AppCompatActivity {
 
-    TextView tv_title, tv_description;
+    private TextView tv_title, tv_description;
     private Button btn_upload, btn_galery;
     private ImageView img_view;
     private StorageReference mStorageRef;
     public Uri imguri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +37,14 @@ public class ShowChallenge extends AppCompatActivity {
         setContentView(R.layout.activity_show_challenge);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
-
+        tv_title=findViewById(R.id.tv_title);
+        tv_description=findViewById(R.id.tv_description);
         btn_upload = findViewById(R.id.btn_poster);
         btn_galery = findViewById(R.id.btn_galery);
         img_view = findViewById(R.id.img_view);
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-
+        initChallenge();
         /**
          * PB ci-dessous à résoudre par la suite
          */
@@ -112,6 +114,12 @@ public class ShowChallenge extends AppCompatActivity {
             imguri = data.getData();
             img_view.setImageURI(imguri);
         }
+    }
+
+    private void initChallenge(){
+        Bundle b = getIntent().getExtras();
+        tv_title.setText(b.getString("tv_challengeName"));
+        tv_description.setText(b.getString("tv_challengeDesc"));
     }
 }
 
