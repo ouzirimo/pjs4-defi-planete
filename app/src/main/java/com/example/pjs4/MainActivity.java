@@ -20,8 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import model.DataBase;
 import model.FireBase;
-import model.User;
-import views.Accueil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -111,7 +109,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAccueil() {
-        Intent in = new Intent(MainActivity.this, Accueil.class);
+        Intent in = new Intent(MainActivity.this, Root.class);
+        startActivity(in);
+    }
+
+    public void gogoooo(View view){
+        Intent in = new Intent(MainActivity.this, Root.class);
         startActivity(in);
     }
 

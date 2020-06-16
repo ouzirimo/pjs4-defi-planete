@@ -124,8 +124,9 @@ DataBase extends SQLiteOpenHelper {
             String description = cus.getString(2);
             String type = cus.getString(3);
             int xp = cus.getInt(4);
+            String dif = "test";
 
-            Challenge c = new Challenge(id, name, description, type, xp);
+            Challenge c = new Challenge(id, name, description, dif, type, xp);
             liste.add(c);
 
             cus.moveToNext();
@@ -161,7 +162,7 @@ DataBase extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         //find those challenge and creating the object Challenge
-        for(int cpt_challenge=0;cpt_challenge<cursor.getCount();cpt_challenge++){
+       /* for(int cpt_challenge=0;cpt_challenge<cursor.getCount();cpt_challenge++){
             req = "SELECT * From Challenge Where id_challenge=?;";
             cursor_challenge = db.rawQuery(req,new String[] {String.valueOf(cursor.getInt(2))}); //execute the query
             cursor_challenge.moveToFirst();
@@ -172,13 +173,13 @@ DataBase extends SQLiteOpenHelper {
             user.addChallenge(challenge);
 
             cursor.moveToNext();
-        }
+        }*/
         cursor_challenge.close();
         cursor.close();
         return user;
     }
 
-    public Challenge getRandomChallenge(){
+   /*public Challenge getRandomChallenge(){
         //query
         String req = "SELECT * From Challenge ;";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -199,6 +200,6 @@ DataBase extends SQLiteOpenHelper {
                 cursor.getString(1),cursor.getString(2),
                 cursor.getString(3),cursor.getInt(4));
         cursor.close();
-        return challenge;
-    }
+        //return challenge;
+    }*/
 }

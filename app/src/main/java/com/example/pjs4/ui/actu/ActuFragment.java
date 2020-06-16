@@ -1,53 +1,36 @@
-package views;
+package com.example.pjs4.ui.actu;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
-
-import android.content.ClipData;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.pjs4.Decouvrir;
-import com.example.pjs4.FilActualite;
-import com.example.pjs4.MainActivity;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.pjs4.R;
-import com.example.pjs4.SignUpActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import model.DataBase;
-import model.FireBase;
 import model.User;
 
-public class Accueil extends AppCompatActivity {
+public class ActuFragment extends Fragment {
+
+    private ActuViewModel actuViewModel;
 
     private DataBase dataBase;
     private Button btn_logout;
@@ -61,13 +44,22 @@ public class Accueil extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accueil);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        actuViewModel =
+                ViewModelProviders.of(this).get(ActuViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_actu, container, false);
 
-        btn_logout = findViewById(R.id.btn_logout);
-        txt_name = findViewById(R.id.session_name);
+        /*final TextView textView = root.findViewById(R.id.text_notifications);
+        actuViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });*/
+
+        btn_logout = getView().findViewById(R.id.btn_logout);
+        txt_name = getView().findViewById(R.id.session_name);
 
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser != null) {
@@ -77,44 +69,19 @@ public class Accueil extends AppCompatActivity {
         //User Information
         txt_name.append(uName);
 
-
-        BottomNavigationView nav = findViewById(R.id.bottom_nav);
-        nav.setOnNavigationItemSelectedListener(navListener);
         showAllChallenge();
 
 
+        return root;
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    //Fragment selectedFragment = null;
-                    switch (item.getItemId()) {
-                        case R.id.nav_actu:
-                            startActivity(new Intent(Accueil.this,FilActualite.class));
-                            break;
-                        case R.id.nav_decouvrir:
-                            startActivity(new Intent(Accueil.this,Decouvrir.class));
-                            break;
-                        case R.id.nav_profil:
-                            startActivity(new Intent(Accueil.this,Accueil.class));
-                            break;
-                    }
-                    //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-                    return true;
-                }
-            };
-
-
+    //voir comment utilisef cette méthode ici
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();
-        this.finish();
+        this.getActivity().finish();
     }
 
-
-
-/*
+    /*
     public String getInfoUser() {
         DocumentReference docRef = db.collection("cities").document("SF");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -147,6 +114,8 @@ public class Accueil extends AppCompatActivity {
         liste.add("tri collectif");
         liste.add("Stop plastique");
 
+
+
         /*test = findViewById(R.id.tv_testChallenge);
         test.append(liste.get(0));*/
 
@@ -163,4 +132,5 @@ public class Accueil extends AppCompatActivity {
         l.addView(t, layoutParam);*/
 
     }
+
 }
