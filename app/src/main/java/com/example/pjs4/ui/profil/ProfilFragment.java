@@ -25,6 +25,7 @@ import com.example.pjs4.R;
 
 import java.util.ArrayList;
 
+import model.Challenge;
 import model.DataBase;
 import model.User;
 
@@ -39,6 +40,7 @@ public class ProfilFragment extends Fragment {
     private String uPass;
     private User user;
 
+    private TextView testChallenge;
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -77,8 +79,7 @@ public class ProfilFragment extends Fragment {
         //User Information
         txt_name.append(uName);
 
-        showAllChallenge();
-
+        showAllChallenge(root);
         /*Button btn_camera = getView().findViewById(R.id.btn_camera);
 
         btn_camera.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +123,26 @@ public class ProfilFragment extends Fragment {
      * Show all challenges of the data base from fire base
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void showAllChallenge(){
+    public void showAllChallenge(View root){
+
+        //on suppose que c la liste récupéré grâce à la fonction de Gaelle des 4 challenges en cours
+
+        Challenge c = new Challenge(1, "Ramasse des bouchons", "La collecte de bouchons consiste à ramsser 100 bouchons!", "geste ecolo", "moyen", 30);
+        Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10);
+        Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50);
+
+        /**
+         * Test avec une lite de Challenge
+         */
+
+        ArrayList<Challenge> l = new ArrayList<>();
+        l.add(c);
+        l.add(c2);
+        l.add(c3);
+
+        /**
+         * Test avec une liste de String
+         */
 
         ArrayList<String> liste = new ArrayList<>();
         liste.add("Ramasse des bouchons");
@@ -132,8 +152,9 @@ public class ProfilFragment extends Fragment {
 
 
 
-        /*test = findViewById(R.id.tv_testChallenge);
-        test.append(liste.get(0));*/
+        testChallenge = root.findViewById(R.id.tv_challengeTitleInProgress1);
+        testChallenge.append(l.get(0).getDifficulty_challenge());
+
 
        /* LinearLayout l = findViewById(R.id.layout_challenge);
 
