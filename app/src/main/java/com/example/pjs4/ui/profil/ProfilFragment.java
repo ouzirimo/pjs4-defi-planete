@@ -176,13 +176,6 @@ public class ProfilFragment extends Fragment {
 
         setOnClickTest(tv_chal1, l);
 
-        /*tv_chal1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
-
        /* LinearLayout l = findViewById(R.id.layout_challenge);
 
         //création d'un text view
