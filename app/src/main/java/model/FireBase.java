@@ -1,5 +1,7 @@
 package model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,9 +24,11 @@ import java.util.concurrent.ExecutionException;
 
 public class FireBase {
     FirebaseFirestore db;
+    FirebaseStorage strg;
 
     public FireBase(){
         db = FirebaseFirestore.getInstance();
+        strg = FirebaseStorage.getInstance();
     }
 
     public void addNewUser(String login, String mail){
@@ -52,9 +58,16 @@ public class FireBase {
 
     public HashMap getAllChallenges() throws ExecutionException, InterruptedException {
 
-        final HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
+        HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
 
         return map;
+    }
+
+    public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
+
+        Bitmap bitmap = (Bitmap) new RetrieveImageInBackground().execute(imageName).get();
+
+        return bitmap;
     }
 
 }
