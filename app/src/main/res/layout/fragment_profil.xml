@@ -87,6 +87,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/lay_chal1"
                 android:layout_width="147dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="50dp"
@@ -107,6 +108,7 @@
                 </ImageView>
 
                 <TextView
+                    android:id="@+id/tv_chal1"
                     android:layout_width="match_parent"
                     android:layout_height="43dp"
                     android:gravity="center"
