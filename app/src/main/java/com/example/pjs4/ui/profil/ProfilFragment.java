@@ -180,11 +180,8 @@ public class ProfilFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
             }
         });*/
-
 
        /* LinearLayout l = findViewById(R.id.layout_challenge);
 
