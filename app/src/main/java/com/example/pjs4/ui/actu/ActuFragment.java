@@ -11,6 +11,8 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.pjs4.R;
+
 public class ActuFragment extends Fragment {
 
     private ActuViewModel actuViewModel;

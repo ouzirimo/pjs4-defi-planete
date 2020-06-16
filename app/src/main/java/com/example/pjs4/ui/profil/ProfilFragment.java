@@ -57,8 +57,8 @@ public class ProfilFragment extends Fragment {
             }
         });*/
 
-        btn_logout = getView().findViewById(R.id.btn_logout);
-        txt_name = getView().findViewById(R.id.session_name);
+        btn_logout = root.findViewById(R.id.btn_logout);
+        txt_name = root.findViewById(R.id.session_name);
 
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser != null) {
@@ -79,7 +79,6 @@ public class ProfilFragment extends Fragment {
                 //startActivity(new Intent(this, PictureActivity.class));
             }
         });*/
-
         return root;
     }
 
