@@ -1,13 +1,16 @@
 package com.example.pjs4.ui.profil;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +57,7 @@ public class ProfilFragment extends Fragment {
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ArrayList<Challenge> l = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -90,7 +94,7 @@ public class ProfilFragment extends Fragment {
         //User Information
         txt_name.append(uName);
 
-        showAllChallenge(root);
+        //showAllChallenge(root);
         /*Button btn_camera = getView().findViewById(R.id.btn_camera);
 
         btn_camera.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +104,7 @@ public class ProfilFragment extends Fragment {
                 //startActivity(new Intent(this, PictureActivity.class));
             }
         });*/
+        showChallengeDone(root);
 
         return root;
     }
@@ -131,6 +136,17 @@ public class ProfilFragment extends Fragment {
     }
 */
 
+    public void initTestChallenge(){
+        Challenge c = new Challenge(1, "Ramasse des bouchons", "La collecte de bouchons consiste à ramsser 100 bouchons!", "geste ecolo", "moyen", 30);
+        Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10);
+        Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50);
+
+        l.add(c);
+        l.add(c2);
+        l.add(c3);
+    }
+
+
     /**
      * Show all challenges of the data base from fire base
      */
@@ -139,29 +155,13 @@ public class ProfilFragment extends Fragment {
 
         //on suppose que c la liste récupéré grâce à la fonction de Gaelle des 4 challenges en cours
 
-        Challenge c = new Challenge(1, "Ramasse des bouchons", "La collecte de bouchons consiste à ramsser 100 bouchons!", "geste ecolo", "moyen", 30);
-        Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10);
-        Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50);
 
 
-        /**
-         * Test avec une liste de String
-         */
-
-        ArrayList<String> liste = new ArrayList<>();
-        liste.add("Ramasse des bouchons");
-        liste.add("utilise une serviette en tissu");
-        liste.add("tri collectif");
-        liste.add("Stop plastique");
-
+        initTestChallenge();
         /**
          * Test avec une liste de Challenge
          */
 
-        ArrayList<Challenge> l = new ArrayList<>();
-        l.add(c);
-        l.add(c2);
-        l.add(c3);
 
         testChallenge = root.findViewById(R.id.tv_challengeTitleInProgress1);
         testChallenge.append(l.get(0).getDifficulty_challenge());
@@ -173,6 +173,7 @@ public class ProfilFragment extends Fragment {
          * Ouverture du détail d'un challenge --> start activity ShowChallenge
          */
         tv_chal1 = root.findViewById(R.id.tv_chal1);
+
 
         setOnClickTest(tv_chal1, l);
 
@@ -190,25 +191,65 @@ public class ProfilFragment extends Fragment {
 
     }
 
-    private void setOnClickTest(final TextView btn, final ArrayList<Challenge> l){
+    private void setOnClickTest(final TextView btn, final Challenge c){
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // Do whatever you want(str can be used here)
-                SendChallenge(l);
+                SendChallenge(c);
             }
         });
     }
 
-    public void SendChallenge(ArrayList<Challenge> l){
+    public void SendChallenge(Challenge c){
 
         Intent i = new Intent(getActivity(), ShowChallenge.class);
         Bundle bundle = new Bundle();
-        bundle.putString("tv_challengeName", l.get(0).getName_challenge());
-        bundle.putString("tv_challengeDesc", l.get(0).getDescription_challenge());
+        bundle.putString("tv_challengeName", c.getName_challenge());
+        bundle.putString("tv_challengeDesc", c.getDescription_challenge());
         i.putExtras(bundle);
         startActivity(i);
+
+    }
+
+    public void showChallengeDone(View v){
+        initTestChallenge();
+
+        LinearLayout lay_parent = v.findViewById(R.id.lay_parent) ;
+
+        for (Challenge c : l ){
+            LinearLayout lay_child = new LinearLayout(v.getContext());
+            lay_child.setOrientation(LinearLayout.VERTICAL);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    500, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(100,0,0,0);
+            lay_child.setBackgroundColor(Color.BLUE);
+            lay_child.setLayoutParams(layoutParams);
+            TextView tv_title = new TextView(v.getContext());
+            tv_title.setTextSize(20);
+            tv_title.setText(c.getName_challenge());
+
+            TextView tv_show = new TextView(v.getContext());
+            tv_show.setTextSize(15);
+            tv_show.setText("Voir le défi");
+
+            lay_child.addView(tv_title);
+            lay_child.addView(tv_show);
+
+            lay_parent.addView(lay_child);
+
+            setOnClickTest(tv_show,c);
+
+
+
+        }
+
+
+
+
+
 
     }
 
