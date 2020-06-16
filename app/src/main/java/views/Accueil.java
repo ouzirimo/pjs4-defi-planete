@@ -1,6 +1,7 @@
 package views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,7 +12,11 @@ import com.example.pjs4.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+
 import model.DataBase;
+import model.FireBase;
 import model.User;
 
 public class Accueil extends AppCompatActivity {
@@ -22,6 +27,7 @@ public class Accueil extends AppCompatActivity {
     private String uName;
     private String uPass;
     private User user;
+    private FireBase fb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,19 @@ public class Accueil extends AppCompatActivity {
         if (fbUser != null) {
             uName = fbUser.getDisplayName();
         }
+
+        fb = new FireBase();
+        HashMap map = null;
+        try {
+             map = fb.getAllChallenges();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("Final map", map.toString());
+
 
         //User Information
         txt_name.append(uName);

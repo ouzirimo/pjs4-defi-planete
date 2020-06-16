@@ -54,7 +54,6 @@ public class FireBase {
 
         HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
 
-        Log.d("Final map", map.toString());
         return map;
     }
 
