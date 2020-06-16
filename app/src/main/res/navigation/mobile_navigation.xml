@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/navigation_discover"
         android:name="com.example.pjs4.ui.discover.DiscoverFragment"
-        android:label="@string/title_dashboard"
+        android:label="Découvrir"
         tools:layout="@layout/fragment_discover" />
 
     <fragment

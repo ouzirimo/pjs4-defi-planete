@@ -21,6 +21,7 @@ import com.example.pjs4.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.pjs4.R;
 
 import java.util.ArrayList;
 
@@ -57,13 +58,21 @@ public class ProfilFragment extends Fragment {
             }
         });*/
 
-        btn_logout = getView().findViewById(R.id.btn_logout);
-        txt_name = getView().findViewById(R.id.session_name);
+        btn_logout = root.findViewById(R.id.btn_logout);
+        txt_name = root.findViewById(R.id.session_name);
 
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser != null) {
             uName = fbUser.getDisplayName();
         }
+
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
 
         //User Information
         txt_name.append(uName);
@@ -79,12 +88,11 @@ public class ProfilFragment extends Fragment {
                 //startActivity(new Intent(this, PictureActivity.class));
             }
         });*/
-
         return root;
     }
 
     //voir comment utilisef cette méthode ici
-    public void logout(View view){
+    public void logout(){
         FirebaseAuth.getInstance().signOut();
         this.getActivity().finish();
     }
