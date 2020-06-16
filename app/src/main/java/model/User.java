@@ -8,16 +8,14 @@ public class User {
     private static final int VERSION = 1;
     private String login;
     private String email;
-    private String password;
     private long level;
     private HashMap<Integer, ChallengePivot> backpack;
 
     //j'aurais crée directement une classe backpack avec une liste de challengesDone et la liste des 4 à réaliser
 
-    public User(String login, String email, String password) {
+    public User(String login, String email) {
         this.login = login;
         this.email = email;
-        this.password = password;
         this.backpack = new HashMap<>();
     }
 
