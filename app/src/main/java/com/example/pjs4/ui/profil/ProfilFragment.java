@@ -88,7 +88,6 @@ public class ProfilFragment extends Fragment {
                 //startActivity(new Intent(this, PictureActivity.class));
             }
         });*/
-
         return root;
     }
 
