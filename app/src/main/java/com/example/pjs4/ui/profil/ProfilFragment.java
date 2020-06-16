@@ -221,5 +221,15 @@ public class ProfilFragment extends Fragment {
         startActivity(i);
 
     }
+    public void SendChallengeDesc(ArrayList<Challenge> l){
+
+        Intent i = new Intent(getActivity(), ShowChallenge.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("tv_challengeName ", l.get(0).getName_challenge());
+        bundle.putString("tv_challengeDesc", l.get(0).getDescription_challenge());
+        i.putExtras(bundle);
+        startActivity(i);
+
+    }
 
 }

@@ -37,7 +37,7 @@ public class ShowChallenge extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 
-        btn_upload = findViewById(R.id.btn_upload);
+        btn_upload = findViewById(R.id.btn_poster);
         btn_galery = findViewById(R.id.btn_galery);
         img_view = findViewById(R.id.img_view);
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -47,7 +47,7 @@ public class ShowChallenge extends AppCompatActivity {
          * PB ci-dessous à résoudre par la suite
          */
 
-        /*btn_galery.setOnClickListener(new View.OnClickListener() {
+        btn_galery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FileChooser();
@@ -58,7 +58,7 @@ public class ShowChallenge extends AppCompatActivity {
             public void onClick(View v) {
                 Fileuploader();
             }
-        });*/
+        });
 
     }
 
@@ -77,7 +77,7 @@ public class ShowChallenge extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
                         //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(ShowChallenge.this, "image Iploded SuccesFull", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ShowChallenge.this, "Défi relevé", Toast.LENGTH_LONG).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
