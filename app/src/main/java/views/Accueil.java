@@ -43,7 +43,7 @@ public class Accueil extends AppCompatActivity {
         }
 
         fb = new FireBase();
-        HashMap map = null;
+        HashMap map = new HashMap();
         try {
              map = fb.getAllChallenges();
         } catch (ExecutionException e) {
@@ -52,7 +52,7 @@ public class Accueil extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d("Final map", map.toString());
+        Log.d("Final map", map.get("15").toString());
 
 
         //User Information

@@ -52,7 +52,7 @@ public class FireBase {
 
     public HashMap getAllChallenges() throws ExecutionException, InterruptedException {
 
-        HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
+        final HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
 
         return map;
     }
