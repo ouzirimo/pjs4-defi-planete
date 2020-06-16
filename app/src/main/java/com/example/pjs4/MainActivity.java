@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intialize();
                 authentication();
-
             }
         });
 
@@ -93,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success
                             Log.d("Authentication", "Success");
-
                             openAccueil();
 
                         } else {
