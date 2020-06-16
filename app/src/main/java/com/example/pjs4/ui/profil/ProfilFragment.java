@@ -29,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.pjs4.R;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -99,16 +101,6 @@ public class ProfilFragment extends Fragment {
             }
         });*/
 
-        tv_chal1 = root.findViewById(R.id.tv_chal1);
-
-        tv_chal1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ShowChallenge.class);
-                startActivity(i);
-            }
-        });
-
         return root;
     }
 
@@ -151,14 +143,6 @@ public class ProfilFragment extends Fragment {
         Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10);
         Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50);
 
-        /**
-         * Test avec une lite de Challenge
-         */
-
-        ArrayList<Challenge> l = new ArrayList<>();
-        l.add(c);
-        l.add(c2);
-        l.add(c3);
 
         /**
          * Test avec une liste de String
@@ -170,10 +154,36 @@ public class ProfilFragment extends Fragment {
         liste.add("tri collectif");
         liste.add("Stop plastique");
 
+        /**
+         * Test avec une liste de Challenge
+         */
 
+        ArrayList<Challenge> l = new ArrayList<>();
+        l.add(c);
+        l.add(c2);
+        l.add(c3);
 
         testChallenge = root.findViewById(R.id.tv_challengeTitleInProgress1);
         testChallenge.append(l.get(0).getDifficulty_challenge());
+
+
+
+
+        /**
+         * Ouverture du détail d'un challenge --> start activity ShowChallenge
+         */
+        tv_chal1 = root.findViewById(R.id.tv_chal1);
+
+        setOnClickTest(tv_chal1, l);
+
+        /*tv_chal1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+            }
+        });*/
 
 
        /* LinearLayout l = findViewById(R.id.layout_challenge);
@@ -187,6 +197,28 @@ public class ProfilFragment extends Fragment {
         LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         // Ajout du composant au layout.
         l.addView(t, layoutParam);*/
+
+    }
+
+    private void setOnClickTest(final TextView btn, final ArrayList<Challenge> l){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Do whatever you want(str can be used here)
+                SendChallenge(l);
+            }
+        });
+    }
+
+    public void SendChallenge(ArrayList<Challenge> l){
+
+        Intent i = new Intent(getActivity(), ShowChallenge.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("tv_challengeName ", l.get(0).getName_challenge());
+        bundle.putString("tv_challengeDesc", l.get(0).getDescription_challenge());
+        i.putExtras(bundle);
+        startActivity(i);
 
     }
 

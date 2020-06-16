@@ -34,6 +34,7 @@ public class ShowChallenge extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_challenge);
+
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 
         btn_upload = findViewById(R.id.btn_upload);
