@@ -7,358 +7,319 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ScrollView
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="87dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="16dp"
+        android:onClick="logout"
+        android:text="Logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewEmma"
+        android:layout_width="111dp"
+        android:layout_height="89dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/emma" />
+
+    <TextView
+        android:id="@+id/session_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageViewEmma"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Score"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="@id/session_name"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="50"
+        app:layout_constraintTop_toTopOf="@id/textView8"
+        android:layout_marginTop="28dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_subtitle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Challenges en cours"
+        android:textSize="25dp"
+        app:layout_constraintTop_toTopOf="@id/textView5"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="36dp" />
+
+    <HorizontalScrollView
+        android:id="@id/horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_subtitle1"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="600dp"
-            app:layout_constraintTop_toTopOf="parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:id="@+id/btn_logout"
-                    android:layout_width="87dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginLeft="36dp"
-                    android:layout_marginTop="16dp"
-                    android:onClick="logout"
-                    android:text="Logout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imageViewEmma"
-                    android:layout_width="111dp"
-                    android:layout_height="89dp"
-                    android:layout_marginTop="56dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/emma" />
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/session_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    app:layout_constraintRight_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/imageViewEmma"
-                    android:layout_marginTop="100dp"/>
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Score"
-                    android:textSize="20dp"
-                    app:layout_constraintTop_toTopOf="@id/session_name"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:text="Challenge 1"
                     android:textSize="25dp"
-                    android:text="50"
-                    app:layout_constraintTop_toTopOf="@id/textView8"
-                    android:layout_marginTop="28dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginRight="100dp"
-                    android:gravity="center"/>
+                    android:onClick="show"
+                    android:layout_marginTop="5dp"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </ImageView>
 
                 <TextView
-                    android:id="@+id/tv_subtitle1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Challenges en cours"
-                    android:textSize="25dp"
-                    app:layout_constraintTop_toTopOf="@id/textView5"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginLeft="36dp" />
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
 
-                <HorizontalScrollView
-                    android:id="@id/horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_subtitle1"
-                    android:layout_marginTop="50dp">
+            </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/colorPrimaryDark"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 1"
-                                android:textSize="25dp"
-                                android:onClick="show"
-                                android:layout_marginTop="5dp"/>
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                            </ImageView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/colorAccent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 2"
-                                android:textSize="25dp"
-                                android:layout_marginTop="5dp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/cardview_shadow_start_color"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 3"
-                                android:textSize="25dp"
-                                android:layout_marginTop="5dp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/colorPrimaryDark"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 4"
-                                android:textSize="25dp"
-                                android:layout_marginTop="5dp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-
-                        </LinearLayout>
-
-                        <!--<TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Challenge 2"
-                            android:textSize="25dp"
-                            android:layout_marginLeft="100dp"
-                            android:background="@color/colorAccent"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Challenge 3"
-                            android:textSize="25dp"
-                            android:layout_marginLeft="100dp"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Challenge 4"
-                            android:textSize="25dp"
-                            android:layout_marginLeft="100dp"/>-->
-
-                    </LinearLayout>
-
-
-                </HorizontalScrollView>
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorAccent"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Challenges terminés"
+                    android:gravity="center"
+                    android:text="Challenge 2"
                     android:textSize="25dp"
-                    app:layout_constraintTop_toTopOf="@id/horizontal"
-                    android:layout_marginTop="120dp"
-                    android:layout_marginLeft="36dp"/>
-
-                <HorizontalScrollView
-                    android:id="@+id/horizontal2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintTop_toTopOf="@id/textView9"
-                    android:layout_marginTop="60dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/colorPrimaryDark"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 4"
-                                android:textSize="25dp"
-                                android:layout_marginTop="5dp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/colorPrimaryDark"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 4"
-                                android:textSize="25dp"
-                                android:layout_marginTop="5dp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/colorPrimaryDark"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 4"
-                                android:textSize="25dp"
-                                android:layout_marginTop="5dp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="147dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:background="@color/colorPrimaryDark"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Challenge 4"
-                                android:textSize="25dp"
-                                android:layout_marginTop="5dp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="43dp"
-                                android:gravity="center"
-                                android:text="Voir le défi"
-                                android:textSize="15dp"></TextView>
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                </HorizontalScrollView>
+                    android:layout_marginTop="5dp"/>
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:background="@color/cardview_shadow_start_color"
+                android:orientation="vertical">
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="120dp"
-                    android:layout_marginLeft="36dp"
-                    android:text="L'annecdote du jour"
+                    android:gravity="center"
+                    android:text="Challenge 3"
                     android:textSize="25dp"
-                    app:layout_constraintTop_toTopOf="@id/horizontal2"/>
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Challenge 4"
+                    android:textSize="25dp"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+    </HorizontalScrollView>
 
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Challenges terminés"
+        android:textSize="25dp"
+        app:layout_constraintTop_toTopOf="@id/horizontal"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="36dp"/>
 
+    <HorizontalScrollView
+        android:id="@+id/horizontal2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/textView9"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Challenge 4"
+                    android:textSize="25dp"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Challenge 4"
+                    android:textSize="25dp"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Challenge 4"
+                    android:textSize="25dp"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="147dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Challenge 4"
+                    android:textSize="25dp"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="Voir le défi"
+                    android:textSize="15dp"></TextView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="36dp"
+        android:text="L'annecdote du jour"
+        android:textSize="25dp"
+        app:layout_constraintTop_toTopOf="@id/horizontal2"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
