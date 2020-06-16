@@ -45,14 +45,14 @@ public class Accueil extends AppCompatActivity {
         fb = new FireBase();
         HashMap map = new HashMap();
         try {
-             map = fb.getAllChallenges();
+            fb.getImage("apples-1841132_1920.jpg");
+            map = fb.getAllChallenges();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        Log.d("Final map", map.get("15").toString());
+        Log.d("Final map", map.toString());
 
 
         //User Information
