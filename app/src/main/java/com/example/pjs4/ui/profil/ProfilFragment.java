@@ -21,6 +21,7 @@ import com.example.pjs4.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.pjs4.R;
 
 import java.util.ArrayList;
 
@@ -57,8 +58,8 @@ public class ProfilFragment extends Fragment {
             }
         });*/
 
-        btn_logout = getView().findViewById(R.id.btn_logout);
-        txt_name = getView().findViewById(R.id.session_name);
+        btn_logout = root.findViewById(R.id.btn_logout);
+        txt_name = root.findViewById(R.id.session_name);
 
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser != null) {
