@@ -41,7 +41,12 @@ public class ShowChallenge extends AppCompatActivity {
         img_view = findViewById(R.id.img_view);
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        btn_galery.setOnClickListener(new View.OnClickListener() {
+
+        /**
+         * PB ci-dessous à résoudre par la suite
+         */
+
+        /*btn_galery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FileChooser();
@@ -52,7 +57,7 @@ public class ShowChallenge extends AppCompatActivity {
             public void onClick(View v) {
                 Fileuploader();
             }
-        });
+        });*/
 
     }
 

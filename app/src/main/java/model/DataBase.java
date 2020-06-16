@@ -141,7 +141,7 @@ DataBase extends SQLiteOpenHelper {
         this.getWritableDatabase().execSQL(req1);
     }
 
-    public User getUser(String login, String pwd){
+    /*public User getUser(String login, String pwd){
         String req = "SELECT * From User Where login=? and password=?;";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(req,new String[] {login, pwd}); //execute the query
@@ -155,7 +155,7 @@ DataBase extends SQLiteOpenHelper {
         }
         //creation of User object
         cursor.moveToFirst();
-        User user = new User(login,cursor.getString(2),pwd);
+        User user = new User(login, cursor.getString(2), pwd);
         //list of user's challenge
         req = "SELECT * From ChallengePivot Where id_user_fk=?;";
         cursor = db.rawQuery(req, new String[]{String.valueOf(cursor.getInt(0))});
@@ -173,11 +173,11 @@ DataBase extends SQLiteOpenHelper {
             user.addChallenge(challenge);
 
             cursor.moveToNext();
-        }*/
+        }
         cursor_challenge.close();
         cursor.close();
         return user;
-    }
+    }*/
 
    /*public Challenge getRandomChallenge(){
         //query

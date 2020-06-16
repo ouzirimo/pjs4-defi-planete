@@ -99,14 +99,13 @@ public class ProfilFragment extends Fragment {
             }
         });*/
 
-        tv_chal1=root.findViewById(R.id.tv_chal1);
+        tv_chal1 = root.findViewById(R.id.tv_chal1);
 
         tv_chal1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(),ShowChallenge.class);
+                Intent i = new Intent(getActivity(), ShowChallenge.class);
                 startActivity(i);
-
             }
         });
 
