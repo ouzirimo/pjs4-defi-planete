@@ -68,8 +68,6 @@ public class FireBase {
 
         return map;
     }
-
-<<<<<<< HEAD
     /**
      * get the current User by calling it on the database
      * @return User
@@ -93,6 +91,7 @@ public class FireBase {
                                 String id_challenge = doc_challengepivot.getId();
                                 db.collection("Challenges").document(id_challenge).get().addOnCompleteListener(task_challenge -> {
                                     if (task_challenge.isSuccessful()) {
+                                        QuerySnapshot doc_challenge = task_challengePivot.getResult();
                                         Challenge challenge = new Challenge(doc_challenge.get("Titre"),);
 
                                     }
