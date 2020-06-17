@@ -18,6 +18,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,41 +110,10 @@ public class FireBase {
                                 map.put(document.getId(), challenge);
                             }
                             Log.d("Uncomplet challenge", map.toString());
+                            firestoreCallback.onCallback(map);
                         }
                     }
                 });
-
-
-        for (int i = 0; i < map.size(); i++) {
-            final int finalI = i;
-            Log.d("KeyNumber", (String) map.keySet().toArray()[i]);
-            db.collection("Challenge").document((String) map.keySet().toArray()[i])
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    HashMap challenge = (HashMap) map.get(map.keySet().toArray()[finalI]);
-                                    challenge.put("Difficulté", document.getDouble("Difficulté"));
-                                    challenge.put("Label", document.getString("Label"));
-                                    challenge.put("Titre", document.getString("Titre"));
-                                    challenge.put("Type", document.getString("Type"));
-                                    if (document.getString("Lien") != null) {
-                                        challenge.put("Lien", document.getString("Lien"));
-                                    }
-                                    map.put(document.getId(), challenge);
-                                }
-                                firestoreCallback.onCallback(map);
-                            }
-                        }
-                    });
-
-            Log.d("MapUserChallenge", map.toString());
-
-
-        }
     }
 
 }
