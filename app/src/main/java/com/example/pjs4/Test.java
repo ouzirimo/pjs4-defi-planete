@@ -1,5 +1,6 @@
 package com.example.pjs4;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.ExecutionException;
 
+import model.Callback;
 import model.FireBase;
 
 
@@ -22,13 +24,14 @@ public class Test extends AppCompatActivity {
         this.img_view = findViewById(R.id.img_view);
 
         FireBase fb = new FireBase();
+        fb.getImage("apples-1841132_1920.jpg",new Callback<Bitmap>(){
 
-        try {
-            img_view.setImageBitmap(fb.getImage("apples-1841132_1920.jpg"));
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void Call(Bitmap b) {
+                img_view.setImageBitmap(b);
+            }
+        });
     }
+
+
 }
