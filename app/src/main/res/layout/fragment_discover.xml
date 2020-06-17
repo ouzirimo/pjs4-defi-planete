@@ -50,8 +50,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="40dp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

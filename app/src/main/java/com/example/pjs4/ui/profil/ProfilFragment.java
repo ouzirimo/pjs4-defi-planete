@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 
 import model.Challenge;
 import model.DataBase;
+import model.FireBase;
 import model.User;
 
 public class ProfilFragment extends Fragment {
@@ -57,6 +59,7 @@ public class ProfilFragment extends Fragment {
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FireBase fb;
     private ArrayList<Challenge> l = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -66,6 +69,14 @@ public class ProfilFragment extends Fragment {
         profilViewModel =
                 ViewModelProviders.of(this).get(ProfilViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profil, container, false);
+        fb = new FireBase();
+        /*final TextView textView = root.findViewById(R.id.text_home);
+        profilViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });*/
 
 
 
@@ -76,7 +87,12 @@ public class ProfilFragment extends Fragment {
         if (fbUser != null) {
             uName = fbUser.getDisplayName();
         }
-
+       /* fb.getUser(new Callback<User>() {
+            @Override
+            public void Call(User user) {
+                Log.d("User", user.getLogin());
+            }
+        });*/
         btn_logout.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -204,7 +220,7 @@ public class ProfilFragment extends Fragment {
             lay_child.setLayoutParams(layoutParams);
             TextView tv_title = new TextView(v.getContext());
             tv_title.setTextSize(20);
-            tv_title.setText(c.getName_challenge());
+            tv_title.setText(c.getName_challenge()); //changer pour le test
 
             TextView tv_show = new TextView(v.getContext());
             tv_show.setTextSize(15);
@@ -216,9 +232,6 @@ public class ProfilFragment extends Fragment {
             lay_parent.addView(lay_child);
 
             setOnClickTest(tv_show,c);
-
-
-
         }
 
     }
