@@ -130,10 +130,10 @@ public class FireBase {
             }
             });
     }*/
-    public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
+   /* public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
         });
-    }
-*/
+    }*/
+
     public void getImage(String imageName, final Callback callback){
 
         final Bitmap[] b = new Bitmap[1];
