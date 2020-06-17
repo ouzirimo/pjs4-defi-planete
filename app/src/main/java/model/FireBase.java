@@ -65,9 +65,16 @@ public class FireBase {
 
     public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
 
-        Bitmap bitmap = (Bitmap) new RetrieveImageInBackground().execute(imageName).get();
+        Bitmap bitmap = new RetrieveImageInBackground().execute(imageName).get();
 
         return bitmap;
+    }
+
+    public HashMap getUserChallenge(String user) throws ExecutionException, InterruptedException {
+
+        HashMap map = new RetrieveUserChallenge().execute(user).get();
+
+        return map;
     }
 
 }
