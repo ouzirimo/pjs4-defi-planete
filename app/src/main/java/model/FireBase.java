@@ -9,9 +9,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -58,4 +64,40 @@ public class FireBase {
         return map;
     }
 
+    /**
+     * get the current User by calling it on the database
+     * @return User
+     */
+    public void getUser(Callback<User> cb){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        final String mail = currentUser.getEmail();
+
+        db.collection("Users").whereEqualTo("Mail", mail).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot document = task.getResult();
+                if (!document.getDocuments().isEmpty()) {
+                    String login = document.getDocuments().get(0).getString("Login");
+                    User user = new User(login, mail);
+                    db.collection("Users").document(login).collection("Challenges").get().addOnCompleteListener(task_challengePivot -> {
+                        if (task_challengePivot.isSuccessful()) {
+                            QuerySnapshot doc_challengePivots = task_challengePivot.getResult();
+                            for(QueryDocumentSnapshot doc_challengepivot : doc_challengePivots){
+                                String id_challenge = doc_challengepivot.getId();
+                                db.collection("Challenges").document(id_challenge).get().addOnCompleteListener(task_challenge -> {
+                                    if (task_challenge.isSuccessful()) {
+                                        Challenge challenge = new Challenge(doc_challenge.get("Titre"),);
+
+                                    }
+                                 });
+                            }
+                        }
+                    });
+                    Log.d("User", user.getLogin());
+                    cb.Call(user);
+                }
+            }
+            });
+    }
 }
