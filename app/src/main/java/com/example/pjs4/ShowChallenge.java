@@ -24,7 +24,7 @@ import com.google.firebase.storage.UploadTask;
 
 public class ShowChallenge extends AppCompatActivity {
 
-    private TextView tv_title, tv_description, tv_level, tv_type;
+    private TextView tv_title, tv_description, tv_level, tv_type, tv_verif;
     private Button btn_upload, btn_galery;
     private ImageView img_view;
     private StorageReference mStorageRef;
@@ -41,15 +41,14 @@ public class ShowChallenge extends AppCompatActivity {
         tv_description=findViewById(R.id.tv_description);
         tv_level=findViewById(R.id.tv_level);
         tv_type=findViewById(R.id.tv_type);
+        tv_verif=findViewById(R.id.tv_verif);
         btn_upload = findViewById(R.id.btn_poster);
         btn_galery = findViewById(R.id.btn_galery);
         img_view = findViewById(R.id.img_view);
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         initChallenge();
-        /**
-         * PB ci-dessous à résoudre par la suite
-         */
+
 
         btn_galery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +123,15 @@ public class ShowChallenge extends AppCompatActivity {
         tv_description.setText(b.getString("tv_challengeDesc"));
         tv_type.setText(b.getString("tv_challengeType"));
         tv_level.setText(b.getString("tv_challengeLevel"));
+        String verif = b.getString("verif");
+
+        if(verif.equals("true")){
+
+            tv_verif.setText("Challenge déjà terminé BRAVO !");
+
+            btn_galery.setVisibility(View.GONE);
+            btn_upload.setVisibility(View.GONE);
+        }
     }
 }
 

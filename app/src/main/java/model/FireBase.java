@@ -97,7 +97,7 @@ public class FireBase {
      * get the current User by calling it on the database
      * @return User
      */
-    public void getUser(Callback<User> cb){
+    /*public void getUser(Callback<User> cb){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -128,7 +128,7 @@ public class FireBase {
                 }
             }
             });
-    }
+    }*/
     public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
 
         Bitmap bitmap = (Bitmap) new RetrieveImageInBackground().execute(imageName).get();

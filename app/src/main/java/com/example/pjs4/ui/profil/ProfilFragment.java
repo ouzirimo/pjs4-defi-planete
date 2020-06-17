@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SortedList;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.pjs4.MainActivity;
@@ -70,15 +71,6 @@ public class ProfilFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProfilViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profil, container, false);
         fb = new FireBase();
-        /*final TextView textView = root.findViewById(R.id.text_home);
-        profilViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
-
-
 
         btn_logout = root.findViewById(R.id.btn_logout);
         txt_name = root.findViewById(R.id.session_name);
@@ -87,12 +79,13 @@ public class ProfilFragment extends Fragment {
         if (fbUser != null) {
             uName = fbUser.getDisplayName();
         }
-       /* fb.getUser(new Callback<User>() {
+       /*fb.getUser(new Callback<User>() {
             @Override
             public void Call(User user) {
                 Log.d("User", user.getLogin());
             }
         });*/
+
         btn_logout.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -147,18 +140,18 @@ public class ProfilFragment extends Fragment {
         l.add(c3);
     }
 
-    private void setOnClickTest(final TextView btn, final Challenge c){
+    private void setOnClickShow(final TextView btn, final Challenge c, final String verif){
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // Do whatever you want(str can be used here)
-                SendChallenge(c);
+                SendChallenge(c, verif);
             }
         });
     }
 
-    public void SendChallenge(Challenge c){
+    public void SendChallenge(Challenge c, final String verif){
 
         Intent i = new Intent(getActivity(), ShowChallenge.class);
         Bundle bundle = new Bundle();
@@ -166,6 +159,7 @@ public class ProfilFragment extends Fragment {
         bundle.putString("tv_challengeDesc", c.getDescription_challenge());
         bundle.putString("tv_challengeLevel", c.getDifficulty_challenge());
         bundle.putString("tv_challengeType", c.getType_challenge());
+        bundle.putString("verif", verif);
         i.putExtras(bundle);
         startActivity(i);
 
@@ -198,7 +192,7 @@ public class ProfilFragment extends Fragment {
 
             lay_parent.addView(lay_child);
 
-            setOnClickTest(tv_show,c);
+            setOnClickShow(tv_show, c, "true");
 
         }
 
@@ -231,7 +225,7 @@ public class ProfilFragment extends Fragment {
 
             lay_parent.addView(lay_child);
 
-            setOnClickTest(tv_show,c);
+            setOnClickShow(tv_show, c, "false");
         }
 
     }
