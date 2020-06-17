@@ -2,7 +2,7 @@ package model;
 
 public class Challenge {
 
-    private int id_challenge = 1; //nécessaire??
+    private int id_challenge; //nécessaire??
     private String name_challenge;
     private String description_challenge;
     private String type_challenge;
