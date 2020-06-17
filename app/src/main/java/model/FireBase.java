@@ -15,7 +15,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -96,7 +97,7 @@ public class FireBase {
      * get the current User by calling it on the database
      * @return User
      */
-    /*public void getUser(Callback<User> cb){
+    public void getUser(Callback<User> cb){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -111,15 +112,14 @@ public class FireBase {
                     db.collection("Users").document(login).collection("Challenges").get().addOnCompleteListener(task_challengePivot -> {
                         if (task_challengePivot.isSuccessful()) {
                             QuerySnapshot doc_challengePivots = task_challengePivot.getResult();
-                            for(final QueryDocumentSnapshot doc_challengepivot : doc_challengePivots){
+                            for(QueryDocumentSnapshot doc_challengepivot : doc_challengePivots){
                                 String id_challenge = doc_challengepivot.getId();
                                 db.collection("Challenges").document(id_challenge).get().addOnCompleteListener(task_challenge -> {
                                     if (task_challenge.isSuccessful()) {
-                                        QuerySnapshot doc_challenge = task_challengePivot.getResult();
                                      //   Challenge challenge = new Challenge(doc_challenge.get("Titre"),);
 
                                     }
-                                });
+                                 });
                             }
                         }
                     });
@@ -128,32 +128,12 @@ public class FireBase {
                 }
             }
             });
-    }*/
-    /*
+    }
     public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
-        });
-    }*/
 
-    public void getImage(String imageName, final Callback callback){
+        Bitmap bitmap = (Bitmap) new RetrieveImageInBackground().execute(imageName).get();
 
-        final Bitmap[] b = new Bitmap[1];
-        StorageReference storageRef = strg.getReference();
-        StorageReference imagesRef = storageRef.child("Challenges/" + imageName);
-        final long ONE_MEGABYTE = 1024 * 1024;
-        imagesRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                b[0] = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                callback.Call(b[0]);
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-
-            }
-        });
-        Log.d("gogoogfokfod","fkodkfokfdosfrkfrke,fek,zke,fke");
+        return bitmap;
     }
 
     public void getUserChallenge(String user, final FirestoreCallback firestoreCallback) {
@@ -176,6 +156,5 @@ public class FireBase {
                     }
                 });
     }
-
 
 }
