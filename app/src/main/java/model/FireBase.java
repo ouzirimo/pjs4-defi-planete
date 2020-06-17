@@ -117,7 +117,7 @@ public class FireBase {
                                 db.collection("Challenges").document(id_challenge).get().addOnCompleteListener(task_challenge -> {
                                     if (task_challenge.isSuccessful()) {
                                         QuerySnapshot doc_challenge = task_challengePivot.getResult();
-                                        Challenge challenge = new Challenge(doc_challenge.get("Titre"),);
+                                     //   Challenge challenge = new Challenge(doc_challenge.get("Titre"),);
 
                                     }
                                  });
