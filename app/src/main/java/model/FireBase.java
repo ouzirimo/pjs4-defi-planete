@@ -106,7 +106,7 @@ public class FireBase {
     public void getUser(FirestoreCallback<User> callback){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
+        Log.d("TEEEEEEEEEEEST", "TESSSST");
         final String mail = currentUser.getEmail();
 
         db.collection("Users").whereEqualTo("Mail", mail).get().addOnCompleteListener(task -> {
@@ -114,9 +114,11 @@ public class FireBase {
                 QuerySnapshot document = task.getResult();
                 String login = document.getDocuments().get(0).getString("Login");
                 User user = new User(login, mail);
+                Log.d("TEEEEEEEEEEEST", "TESSSST");
                 getUserChallenge(login, new FirestoreCallback<HashMap<String, String>>() {
                     @Override
                     public void onCallback(HashMap <String, String> map_challengePivot) {
+
                         for (Map.Entry mapentry : map_challengePivot.entrySet()) { // For each challenge pivot
                             String status = mapentry.getValue().toString();
                             ChallengeStatus challengeStatus;
@@ -131,7 +133,6 @@ public class FireBase {
                             }
                             user.addChallenge(challenges.get(mapentry.getKey()), challengeStatus);
                         }
-
                     }
                 });
                 Log.d("User", user.getLogin());
@@ -162,14 +163,15 @@ public class FireBase {
     }
 
 
-    public void getUserChallenge(String login, final FirestoreCallback firestoreCallback) {
+    public void getUserChallenge(String login, final FirestoreCallback <HashMap<String, String>> firestoreCallback) {
         final HashMap <String, String> map = new HashMap();
-
+        Log.d("TEEEEEEEEEEEST", "TESSSST");
         db.collection("Users").document(login).collection("Challenge")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Log.d("TEEEEEEEEEEEST", "TESSSSTeuuuhh");
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 map.put(document.getId(), document.getString("Etat"));
@@ -179,6 +181,7 @@ public class FireBase {
                         }
                     }
                 });
+
     }
 
 }

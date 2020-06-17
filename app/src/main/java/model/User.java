@@ -43,8 +43,6 @@ public class User {
         }
     } */
 
-
-
     /**
      * generate random challenge when one challenge is done or if it's a new user
      * verifiy with a condition before to call this method
@@ -59,5 +57,9 @@ public class User {
         //vérifier s'il n'existe pas déjà dans la backpack du user sinon recommancer (pas besoins à l'insciption d'un nouveau user)
         //seulement besoin lorsque il y a déjà eu des chaenge avant soit quand c pour remplacer un challenge abandonné ou réussit
 
+    }
+
+    public HashMap<Integer, ChallengePivot> getBackpack() {
+        return backpack;
     }
 }
