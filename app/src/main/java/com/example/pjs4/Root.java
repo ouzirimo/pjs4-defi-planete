@@ -27,12 +27,12 @@ public class Root extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         FireBase fb = new FireBase();
-        fb.getAllChallenges(new FirestoreCallback() {
+        fb.getAllChallenges(new FirestoreCallback<>() {
             @Override
-            public void onCallback(HashMap map) {
+            public void onCallback(T t) {
                 Gson gson = new Gson();
                 MapWrapper wrapper = new MapWrapper();
-                wrapper.setMap(map);
+                wrapper.setMap(t);
                 String serializedMap = gson.toJson(wrapper);
             }
         });
