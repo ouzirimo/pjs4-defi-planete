@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,6 +22,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import org.w3c.dom.Document;
 
 import java.util.Calendar;
@@ -62,12 +65,34 @@ public class FireBase {
                 });
     }
 
-    public HashMap getAllChallenges() throws ExecutionException, InterruptedException {
+    public void getAllChallenges(final FirestoreCallback firestoreCallback){
 
-        HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
+        final HashMap map = new HashMap();
 
-        return map;
+        db.collection("Challenge")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //Log.d("Get challenges", document.getId() + " => " + document.getData());
+                                Map<String, Object> challenge = new HashMap<>();
+                                challenge.put("Difficulté", document.getDouble("Difficulté"));
+                                challenge.put("Label", document.getString("Label"));
+                                challenge.put("Titre", document.getString("Titre"));
+                                challenge.put("Type", document.getString("Type"));
+                                if (document.getString("Lien") != null) {
+                                    challenge.put("Lien", document.getString("Lien"));
+                                }
+                                map.put(document.getId(), challenge);
+                            }
+                            firestoreCallback.onCallback(map);
+                        }
+                    }
+                });
     }
+
     /**
      * get the current User by calling it on the database
      * @return User
@@ -111,4 +136,26 @@ public class FireBase {
 
         return bitmap;
     }
+
+    public void getUserChallenge(String user, final FirestoreCallback firestoreCallback) {
+        final HashMap map = new HashMap();
+
+        db.collection("Users").document(user).collection("Challenge")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> challenge = new HashMap<>();
+                                challenge.put("Etat", document.getString("Etat"));
+                                map.put(document.getId(), challenge);
+                            }
+                            Log.d("Uncomplet challenge", map.toString());
+                            firestoreCallback.onCallback(map);
+                        }
+                    }
+                });
+    }
+
 }
