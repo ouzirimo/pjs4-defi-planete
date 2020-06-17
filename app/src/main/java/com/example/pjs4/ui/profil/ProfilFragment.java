@@ -38,6 +38,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import model.Challenge;
 import model.DataBase;
@@ -228,5 +230,12 @@ public class ProfilFragment extends Fragment {
             setOnClickShow(tv_show, c, "false");
         }
 
+
+
+
+
+
     }
+
+
 }
