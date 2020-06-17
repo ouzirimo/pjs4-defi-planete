@@ -97,7 +97,7 @@ public class FireBase {
      * get the current User by calling it on the database
      * @return User
      */
-    public void getUser(Callback<User> cb){
+    public void getUser(FirestoreCallback<User> callback){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -124,7 +124,7 @@ public class FireBase {
                         }
                     });
                     Log.d("User", user.getLogin());
-                    cb.Call(user);
+                    callback.onCallback(user);
                 }
             }
             });
