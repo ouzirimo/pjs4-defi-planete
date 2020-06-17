@@ -25,10 +25,10 @@ public class Test extends AppCompatActivity {
         this.img_view = findViewById(R.id.img_view);
 
         FireBase fb = new FireBase();
-        fb.getImage("apples-1841132_1920.jpg",new FirestoreCallback<T>(){
+        fb.getImage("apples-1841132_1920.jpg",new FirestoreCallback<Bitmap>(){
 
             @Override
-            public void o(Bitmap b) {
+            public void onCallback(Bitmap b) {
                 img_view.setImageBitmap(b);
             }
         });

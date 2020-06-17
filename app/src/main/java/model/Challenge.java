@@ -10,13 +10,14 @@ public class Challenge {
     private int xp_challenge;
     private String img;
 
-    public Challenge(int id, String name, String description, String type, String difficulty, int xp){
+    public Challenge(int id, String name, String description, String type, String difficulty, int xp, String img){
          this.id_challenge = id;
          this.description_challenge = description;
          this.name_challenge = name;
          this.type_challenge = type;
          this.difficulty = difficulty;
          this.xp_challenge = xp;
+         this.img = img;
     }
 
     public int getId_challenge() {

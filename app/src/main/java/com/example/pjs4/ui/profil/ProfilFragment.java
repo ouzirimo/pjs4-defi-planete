@@ -133,9 +133,9 @@ public class ProfilFragment extends Fragment {
 */
 
     public void initTestChallenge(){
-        Challenge c = new Challenge(1, "Ramasse des bouchons", "La collecte de bouchons consiste à ramsser 100 bouchons!", "geste ecolo", "moyen", 30);
-        Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10);
-        Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50);
+        Challenge c = new Challenge(1, "Ramasse des bouchons", "La collecte de bouchons consiste à ramsser 100 bouchons!", "geste ecolo", "moyen", 30,"");
+        Challenge c2 = new Challenge(2, "jester poubelles", "jette bien tes poubelles!", "geste ecolo", "facile", 10,"");
+        Challenge c3 = new Challenge(3, "eau froide", "lave toi à l'eau froide", "geste ecolo", "difficile", 50,"");
 
         l.add(c);
         l.add(c2);
