@@ -7,10 +7,8 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.concurrent.ExecutionException;
-
-import model.Callback;
 import model.FireBase;
+import model.FirestoreCallback;
 
 
 public class Test extends AppCompatActivity {
@@ -24,10 +22,10 @@ public class Test extends AppCompatActivity {
         this.img_view = findViewById(R.id.img_view);
 
         FireBase fb = new FireBase();
-        fb.getImage("apples-1841132_1920.jpg",new Callback<Bitmap>(){
+        fb.getImage("apples-1841132_1920.jpg",new FirestoreCallback<Bitmap>(){
 
             @Override
-            public void Call(Bitmap b) {
+            public void onCallback(Bitmap b) {
                 img_view.setImageBitmap(b);
             }
         });
