@@ -24,7 +24,7 @@ import com.google.firebase.storage.UploadTask;
 
 public class ShowChallenge extends AppCompatActivity {
 
-    private TextView tv_title, tv_description;
+    private TextView tv_title, tv_description, tv_level, tv_type;
     private Button btn_upload, btn_galery;
     private ImageView img_view;
     private StorageReference mStorageRef;
@@ -39,6 +39,8 @@ public class ShowChallenge extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
         tv_title=findViewById(R.id.tv_title);
         tv_description=findViewById(R.id.tv_description);
+        tv_level=findViewById(R.id.tv_level);
+        tv_type=findViewById(R.id.tv_type);
         btn_upload = findViewById(R.id.btn_poster);
         btn_galery = findViewById(R.id.btn_galery);
         img_view = findViewById(R.id.img_view);
@@ -120,6 +122,8 @@ public class ShowChallenge extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         tv_title.setText(b.getString("tv_challengeName"));
         tv_description.setText(b.getString("tv_challengeDesc"));
+        tv_type.setText(b.getString("tv_challengeType"));
+        tv_level.setText(b.getString("tv_challengeLevel"));
     }
 }
 
