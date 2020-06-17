@@ -1,7 +1,5 @@
 package model;
 
-import java.util.HashMap;
-
-public interface FirestoreCallback {
-    void onCallback(HashMap map);
+public interface FirestoreCallback <T>{
+    void onCallback(T t);
 }
