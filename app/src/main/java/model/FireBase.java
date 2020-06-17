@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -56,18 +57,92 @@ public class FireBase {
                 });
     }
 
-    public HashMap getAllChallenges() throws ExecutionException, InterruptedException {
+    public void getAllChallenges(final FirestoreCallback firestoreCallback){
 
-        HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
+        final HashMap map = new HashMap();
 
-        return map;
+        db.collection("Challenge")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //Log.d("Get challenges", document.getId() + " => " + document.getData());
+                                Map<String, Object> challenge = new HashMap<>();
+                                challenge.put("Difficulté", document.getDouble("Difficulté"));
+                                challenge.put("Label", document.getString("Label"));
+                                challenge.put("Titre", document.getString("Titre"));
+                                challenge.put("Type", document.getString("Type"));
+                                if (document.getString("Lien") != null) {
+                                    challenge.put("Lien", document.getString("Lien"));
+                                }
+                                map.put(document.getId(), challenge);
+                            }
+                            firestoreCallback.onCallback(map);
+                        }
+                    }
+                });
     }
+
 
     public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
 
-        Bitmap bitmap = (Bitmap) new RetrieveImageInBackground().execute(imageName).get();
+        Bitmap bitmap = new RetrieveImageInBackground().execute(imageName).get();
 
         return bitmap;
+    }
+
+    public void getUserChallenge(String user, final FirestoreCallback firestoreCallback) {
+        final HashMap map = new HashMap();
+
+        db.collection("Users").document(user).collection("Challenge")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> challenge = new HashMap<>();
+                                challenge.put("Etat", document.getString("Etat"));
+                                map.put(document.getId(), challenge);
+                            }
+                            Log.d("Uncomplet challenge", map.toString());
+                        }
+                    }
+                });
+
+
+        for (int i = 0; i < map.size(); i++) {
+            final int finalI = i;
+            Log.d("KeyNumber", (String) map.keySet().toArray()[i]);
+            db.collection("Challenge").document((String) map.keySet().toArray()[i])
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    HashMap challenge = (HashMap) map.get(map.keySet().toArray()[finalI]);
+                                    challenge.put("Difficulté", document.getDouble("Difficulté"));
+                                    challenge.put("Label", document.getString("Label"));
+                                    challenge.put("Titre", document.getString("Titre"));
+                                    challenge.put("Type", document.getString("Type"));
+                                    if (document.getString("Lien") != null) {
+                                        challenge.put("Lien", document.getString("Lien"));
+                                    }
+                                    map.put(document.getId(), challenge);
+                                }
+                                firestoreCallback.onCallback(map);
+                            }
+                        }
+                    });
+
+            Log.d("MapUserChallenge", map.toString());
+
+
+        }
     }
 
 }
