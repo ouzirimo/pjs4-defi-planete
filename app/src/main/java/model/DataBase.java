@@ -126,7 +126,7 @@ DataBase extends SQLiteOpenHelper {
             int xp = cus.getInt(4);
             String dif = "test";
 
-            Challenge c = new Challenge(id, name, description, dif, type, xp);
+            Challenge c = new Challenge(id, name, description, dif, type, xp,"");
             liste.add(c);
 
             cus.moveToNext();

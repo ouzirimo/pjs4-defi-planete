@@ -34,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 public class FireBase {
     FirebaseFirestore db;
     FirebaseStorage strg;
+    private HashMap <String, Challenge> challenges; //id_challenge, object challenge
 
     public FireBase(){
         db = FirebaseFirestore.getInstance();
@@ -65,9 +66,9 @@ public class FireBase {
                 });
     }
 
-    public void getAllChallenges(final FirestoreCallback firestoreCallback){
+    public void getAllChallenges(){
 
-        final HashMap map = new HashMap();
+        this.challenges = new HashMap();
 
         db.collection("Challenge")
                 .get()
@@ -76,18 +77,23 @@ public class FireBase {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                //Log.d("Get challenges", document.getId() + " => " + document.getData());
-                                Map<String, Object> challenge = new HashMap<>();
-                                challenge.put("Difficulté", document.getDouble("Difficulté"));
-                                challenge.put("Label", document.getString("Label"));
-                                challenge.put("Titre", document.getString("Titre"));
-                                challenge.put("Type", document.getString("Type"));
-                                if (document.getString("Lien") != null) {
-                                    challenge.put("Lien", document.getString("Lien"));
+                                long difficulty = document.getLong("Difficulté");
+                                String difficulty_type;
+                                if (difficulty==1){
+                                    difficulty_type = "Facile";
                                 }
-                                map.put(document.getId(), challenge);
+                                else if(difficulty==2){
+                                    difficulty_type = "Moyen";
+                                }
+                                else{
+                                    difficulty_type = "Difficile";
+                                }
+                                Challenge challenge = new Challenge(Integer.parseInt(document.getId()),document.getString("Titre"),
+                                        document.getString("Label"), document.getString("Type"),difficulty_type
+                                        , difficulty, document.getString("Lien"));
+
+                                challenges.put(document.getId(), challenge);
                             }
-                            firestoreCallback.onCallback(map);
                         }
                     }
                 });
@@ -106,49 +112,67 @@ public class FireBase {
         db.collection("Users").whereEqualTo("Mail", mail).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot document = task.getResult();
-                if (!document.getDocuments().isEmpty()) {
-                    String login = document.getDocuments().get(0).getString("Login");
-                    User user = new User(login, mail);
-                    db.collection("Users").document(login).collection("Challenges").get().addOnCompleteListener(task_challengePivot -> {
-                        if (task_challengePivot.isSuccessful()) {
-                            QuerySnapshot doc_challengePivots = task_challengePivot.getResult();
-                            for(QueryDocumentSnapshot doc_challengepivot : doc_challengePivots){
-                                String id_challenge = doc_challengepivot.getId();
-                                db.collection("Challenges").document(id_challenge).get().addOnCompleteListener(task_challenge -> {
-                                    if (task_challenge.isSuccessful()) {
-                                     //   Challenge challenge = new Challenge(doc_challenge.get("Titre"),);
-
-                                    }
-                                 });
+                String login = document.getDocuments().get(0).getString("Login");
+                User user = new User(login, mail);
+                getUserChallenge(login, new FirestoreCallback<HashMap<String, String>>() {
+                    @Override
+                    public void onCallback(HashMap <String, String> map_challengePivot) {
+                        for (Map.Entry mapentry : map_challengePivot.entrySet()) { // For each challenge pivot
+                            String status = mapentry.getValue().toString();
+                            ChallengeStatus challengeStatus;
+                            if (status.equals("enCours")){
+                                challengeStatus = new UnDone();
                             }
+                            else if(status.equals("enAttente")){
+                                challengeStatus = new InProgress();
+                            }
+                            else{
+                                challengeStatus = new Done();
+                            }
+                            user.addChallenge(challenges.get(mapentry.getKey()), challengeStatus);
                         }
-                    });
-                    Log.d("User", user.getLogin());
-                    callback.onCallback(user);
-                }
+
+                    }
+                });
+                Log.d("User", user.getLogin());
+                callback.onCallback(user);
             }
-            });
-    }
-    public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
-
-        Bitmap bitmap = (Bitmap) new RetrieveImageInBackground().execute(imageName).get();
-
-        return bitmap;
+        });
     }
 
-    public void getUserChallenge(String user, final FirestoreCallback firestoreCallback) {
-        final HashMap map = new HashMap();
 
-        db.collection("Users").document(user).collection("Challenge")
+    public void getImage(String imageName, final FirestoreCallback <Bitmap> callback){
+
+        final Bitmap[] b = new Bitmap[1];
+        StorageReference storageRef = strg.getReference();
+        StorageReference imagesRef = storageRef.child("Challenges/" + imageName);
+        final long ONE_MEGABYTE = 1024 * 1024;
+        imagesRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                b[0] = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                callback.onCallback(b[0]);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+
+            }
+        });
+    }
+
+
+    public void getUserChallenge(String login, final FirestoreCallback firestoreCallback) {
+        final HashMap <String, String> map = new HashMap();
+
+        db.collection("Users").document(login).collection("Challenge")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> challenge = new HashMap<>();
-                                challenge.put("Etat", document.getString("Etat"));
-                                map.put(document.getId(), challenge);
+                                map.put(document.getId(), document.getString("Etat"));
                             }
                             Log.d("Uncomplet challenge", map.toString());
                             firestoreCallback.onCallback(map);

@@ -27,10 +27,10 @@ public class User {
      * add a challenge to user's backpack
      * @param challenge
      */
-   /* public void addChallenge(Challenge challenge){
-        ChallengePivot object = new ChallengePivot(challenge); //create link between User and Challenge
+    public void addChallenge(Challenge challenge, ChallengeStatus status){
+        ChallengePivot object = new ChallengePivot(challenge, status); //create link between User and Challenge
         this.backpack.put(challenge.getId_challenge(),object); //add this link to User's list
-    } */
+    }
 
     /**
      *  set a challenge done

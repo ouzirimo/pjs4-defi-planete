@@ -1,5 +1,6 @@
 package com.example.pjs4;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import java.util.HashMap;
 
+import model.Challenge;
 import model.FireBase;
 import model.FirestoreCallback;
 import model.MapWrapper;
@@ -27,15 +29,7 @@ public class Root extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         FireBase fb = new FireBase();
-        fb.getAllChallenges(new FirestoreCallback() {
-            @Override
-            public void onCallback(HashMap map) {
-                Gson gson = new Gson();
-                MapWrapper wrapper = new MapWrapper();
-                wrapper.setMap(map);
-                String serializedMap = gson.toJson(wrapper);
-            }
-        });
+        fb.getAllChallenges();
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
