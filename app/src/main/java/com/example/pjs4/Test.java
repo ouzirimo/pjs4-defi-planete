@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.ExecutionException;
 
+import model.Callback;
 import model.FireBase;
 
 
@@ -22,13 +23,8 @@ public class Test extends AppCompatActivity {
         this.img_view = findViewById(R.id.img_view);
 
         FireBase fb = new FireBase();
-
-        try {
-            img_view.setImageBitmap(fb.getImage("apples-1841132_1920.jpg"));
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        img_view.setImageBitmap(fb.getImage("apples-1841132_1920.jpg"));
     }
+
+
 }

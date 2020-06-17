@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +37,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import model.Challenge;
 import model.DataBase;
+import model.FireBase;
 import model.User;
 
 public class ProfilFragment extends Fragment {
@@ -104,6 +108,13 @@ public class ProfilFragment extends Fragment {
                 //startActivity(new Intent(this, PictureActivity.class));
             }
         });*/
+        try {
+            showChallengeDone(root);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         showChallengeDone(root);
 
         return root;
@@ -210,6 +221,8 @@ public class ProfilFragment extends Fragment {
         startActivity(i);
 
     }
+
+
 
     public void showChallengeDone(View v){
         initTestChallenge();

@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import io.grpc.Context;
+
 public class FireBase {
     FirebaseFirestore db;
     FirebaseStorage strg;
@@ -86,11 +88,27 @@ public class FireBase {
     }
 
 
-    public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
+    public Bitmap getImage(String imageName, final Callback callback){
 
-        Bitmap bitmap = new RetrieveImageInBackground().execute(imageName).get();
+        final Bitmap[] b = new Bitmap[1];
+        StorageReference storageRef = strg.getReference();
+        StorageReference imagesRef = storageRef.child("Challenges/" + imageName);
+        final long ONE_MEGABYTE = 1024 * 1024;
+        imagesRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                b[0] = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                callback.Call(b);
 
-        return bitmap;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+
+            }
+        });
+        Log.d("gogoogfokfod","fkodkfokfdosfrkfrke,fek,zke,fke");
+        return b[0];
     }
 
     public void getUserChallenge(String user, final FirestoreCallback firestoreCallback) {
