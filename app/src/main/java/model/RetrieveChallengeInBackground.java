@@ -21,9 +21,7 @@ public class RetrieveChallengeInBackground extends AsyncTask {
     protected Object doInBackground(Object[] objects) {
         final HashMap map = new HashMap();
 
-        Task<QuerySnapshot> task = FirebaseFirestore.getInstance().collection("Challenge")
-                .get();
-
+        Task<QuerySnapshot> task = FirebaseFirestore.getInstance().collection("Challenge").get();
         try {
             QuerySnapshot querySnapshot = Tasks.await(task);
 
@@ -46,7 +44,7 @@ public class RetrieveChallengeInBackground extends AsyncTask {
             e.printStackTrace();
         }
 
-
+        Log.d("Map", map.toString());
         return map;
     }
 }

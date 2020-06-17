@@ -1,9 +1,12 @@
 package com.example.pjs4.ui.discover;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +17,16 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.pjs4.R;
 
+import java.util.concurrent.ExecutionException;
+
+import model.FireBase;
+
 public class DiscoverFragment extends Fragment {
 
     private DiscoverViewModel discoverViewModel;
+    private ImageView img_view;
+    private Button btn_test;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +40,9 @@ public class DiscoverFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+
+
+
         return root;
     }
 }

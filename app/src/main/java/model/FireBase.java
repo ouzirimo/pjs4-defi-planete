@@ -1,5 +1,7 @@
 package model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Document;
 
@@ -26,9 +30,11 @@ import java.util.concurrent.ExecutionException;
 
 public class FireBase {
     FirebaseFirestore db;
+    FirebaseStorage strg;
 
     public FireBase(){
         db = FirebaseFirestore.getInstance();
+        strg = FirebaseStorage.getInstance();
     }
 
     public void addNewUser(String login, String mail){
@@ -60,10 +66,10 @@ public class FireBase {
 
         HashMap map = (HashMap) new RetrieveChallengeInBackground().execute().get();
 
-        Log.d("Final map", map.toString());
         return map;
     }
 
+<<<<<<< HEAD
     /**
      * get the current User by calling it on the database
      * @return User
@@ -99,5 +105,11 @@ public class FireBase {
                 }
             }
             });
+    }
+    public Bitmap getImage(String imageName) throws ExecutionException, InterruptedException {
+
+        Bitmap bitmap = (Bitmap) new RetrieveImageInBackground().execute(imageName).get();
+
+        return bitmap;
     }
 }
