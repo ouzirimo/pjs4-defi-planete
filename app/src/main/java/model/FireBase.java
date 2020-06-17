@@ -12,11 +12,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+                                import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import org.w3c.dom.Document;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -87,6 +95,41 @@ public class FireBase {
                 });
     }
 
+    /**
+     * get the current User by calling it on the database
+     * @return User
+     */
+    public void getUser(Callback<User> cb){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        final String mail = currentUser.getEmail();
+        db.collection("Users").whereEqualTo("Mail", mail).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot document = task.getResult();
+                if (!document.getDocuments().isEmpty()) {
+                    String login = document.getDocuments().get(0).getString("Login");
+                    User user = new User(login, mail);
+                    db.collection("Users").document(login).collection("Challenges").get().addOnCompleteListener(task_challengePivot -> {
+                        if (task_challengePivot.isSuccessful()) {
+                            QuerySnapshot doc_challengePivots = task_challengePivot.getResult();
+                            for(QueryDocumentSnapshot doc_challengepivot : doc_challengePivots){
+                                String id_challenge = doc_challengepivot.getId();
+                                db.collection("Challenges").document(id_challenge).get().addOnCompleteListener(task_challenge -> {
+                                    if (task_challenge.isSuccessful()) {
+                                        Challenge challenge = new Challenge(doc_challenge.get("Titre"),);
+
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    Log.d("User", user.getLogin());
+                    cb.Call(user);
+                }
+            }
+        });
+    }
 
     public Bitmap getImage(String imageName, final Callback callback){
 
@@ -126,41 +169,10 @@ public class FireBase {
                                 map.put(document.getId(), challenge);
                             }
                             Log.d("Uncomplet challenge", map.toString());
+                            firestoreCallback.onCallback(map);
                         }
                     }
                 });
-
-
-        for (int i = 0; i < map.size(); i++) {
-            final int finalI = i;
-            Log.d("KeyNumber", (String) map.keySet().toArray()[i]);
-            db.collection("Challenge").document((String) map.keySet().toArray()[i])
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    HashMap challenge = (HashMap) map.get(map.keySet().toArray()[finalI]);
-                                    challenge.put("Difficulté", document.getDouble("Difficulté"));
-                                    challenge.put("Label", document.getString("Label"));
-                                    challenge.put("Titre", document.getString("Titre"));
-                                    challenge.put("Type", document.getString("Type"));
-                                    if (document.getString("Lien") != null) {
-                                        challenge.put("Lien", document.getString("Lien"));
-                                    }
-                                    map.put(document.getId(), challenge);
-                                }
-                                firestoreCallback.onCallback(map);
-                            }
-                        }
-                    });
-
-            Log.d("MapUserChallenge", map.toString());
-
-
-        }
     }
 
 }

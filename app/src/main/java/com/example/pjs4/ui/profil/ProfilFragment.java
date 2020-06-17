@@ -61,6 +61,7 @@ public class ProfilFragment extends Fragment {
     private ViewPager2 viewPager2;
     private RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FireBase fb;
     private ArrayList<Challenge> l = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -70,7 +71,7 @@ public class ProfilFragment extends Fragment {
         profilViewModel =
                 ViewModelProviders.of(this).get(ProfilViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profil, container, false);
-
+        fb = new FireBase();
         /*final TextView textView = root.findViewById(R.id.text_home);
         profilViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -79,6 +80,8 @@ public class ProfilFragment extends Fragment {
             }
         });*/
 
+
+
         btn_logout = root.findViewById(R.id.btn_logout);
         txt_name = root.findViewById(R.id.session_name);
 
@@ -86,7 +89,12 @@ public class ProfilFragment extends Fragment {
         if (fbUser != null) {
             uName = fbUser.getDisplayName();
         }
-
+       /* fb.getUser(new Callback<User>() {
+            @Override
+            public void Call(User user) {
+                Log.d("User", user.getLogin());
+            }
+        });*/
         btn_logout.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -98,29 +106,13 @@ public class ProfilFragment extends Fragment {
         //User Information
         txt_name.append(uName);
 
-        //showAllChallenge(root);
-        /*Button btn_camera = getView().findViewById(R.id.btn_camera);
 
-        btn_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //startActivity(new Intent(this, PictureActivity.class));
-            }
-        });*/
-        try {
-            showChallengeDone(root);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         showChallengeDone(root);
+        showChallengeInProgress(root);
 
         return root;
     }
 
-    //voir comment utilisef cette méthode ici
     public void logout(){
         FirebaseAuth.getInstance().signOut();
         this.getActivity().finish();
@@ -157,49 +149,6 @@ public class ProfilFragment extends Fragment {
         l.add(c3);
     }
 
-
-    /**
-     * Show all challenges of the data base from fire base
-     */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void showAllChallenge(View root){
-
-        //on suppose que c la liste récupéré grâce à la fonction de Gaelle des 4 challenges en cours
-
-
-
-        initTestChallenge();
-        /**
-         * Test avec une liste de Challenge
-         */
-
-
-        testChallenge = root.findViewById(R.id.tv_challengeTitleInProgress1);
-        testChallenge.append(l.get(0).getDifficulty_challenge());
-
-
-
-
-        /**
-         * Ouverture du détail d'un challenge --> start activity ShowChallenge
-         */
-        tv_chal1 = root.findViewById(R.id.tv_chal1);
-
-
-       /* LinearLayout l = findViewById(R.id.layout_challenge);
-
-        //création d'un text view
-        TextView t = new TextView(this);
-        t.setText(liste.get(0));
-        t.setTextSize(25);
-
-        // Définition de la façon dont le composant va remplir le layout.
-        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        // Ajout du composant au layout.
-        l.addView(t, layoutParam);*/
-
-    }
-
     private void setOnClickTest(final TextView btn, final Challenge c){
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,17 +166,17 @@ public class ProfilFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("tv_challengeName", c.getName_challenge());
         bundle.putString("tv_challengeDesc", c.getDescription_challenge());
+        bundle.putString("tv_challengeLevel", c.getDifficulty_challenge());
+        bundle.putString("tv_challengeType", c.getType_challenge());
         i.putExtras(bundle);
         startActivity(i);
 
     }
 
-
-
     public void showChallengeDone(View v){
         initTestChallenge();
 
-        LinearLayout lay_parent = v.findViewById(R.id.lay_parent) ;
+        LinearLayout lay_parent = v.findViewById(R.id.lay_parentDone) ;
 
         for (Challenge c : l ){
             LinearLayout lay_child = new LinearLayout(v.getContext());
@@ -253,8 +202,38 @@ public class ProfilFragment extends Fragment {
 
             setOnClickTest(tv_show,c);
 
+        }
 
+    }
 
+    public void showChallengeInProgress(View v){
+        initTestChallenge();
+
+        LinearLayout lay_parent = v.findViewById(R.id.lay_parentInProgress) ;
+
+        for (Challenge c : l ){
+            LinearLayout lay_child = new LinearLayout(v.getContext());
+            lay_child.setOrientation(LinearLayout.VERTICAL);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    500, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(100,0,0,0);
+            lay_child.setBackgroundColor(Color.BLUE);
+            lay_child.setLayoutParams(layoutParams);
+            TextView tv_title = new TextView(v.getContext());
+            tv_title.setTextSize(20);
+            tv_title.setText(c.getName_challenge()); //changer pour le test
+
+            TextView tv_show = new TextView(v.getContext());
+            tv_show.setTextSize(15);
+            tv_show.setText("Voir le défi");
+
+            lay_child.addView(tv_title);
+            lay_child.addView(tv_show);
+
+            lay_parent.addView(lay_child);
+
+            setOnClickTest(tv_show,c);
         }
 
 
