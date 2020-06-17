@@ -67,6 +67,8 @@ public class FireBase {
 
     public void getAllChallenges(final FirestoreCallback firestoreCallback){
 
+        final HashMap map = new HashMap();
+
         db.collection("Challenge")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -91,7 +93,6 @@ public class FireBase {
                 });
     }
 
-<<<<<<< HEAD
     /**
      * get the current User by calling it on the database
      * @return User
