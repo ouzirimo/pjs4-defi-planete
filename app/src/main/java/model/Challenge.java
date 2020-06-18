@@ -2,15 +2,15 @@ package model;
 
 public class Challenge {
 
-    private int id_challenge = 1; //nécessaire??
+    private int id_challenge; //nécessaire??
     private String name_challenge;
     private String description_challenge;
     private String type_challenge;
     private String difficulty;
-    private int xp_challenge;
+    private long xp_challenge;
     private String img;
 
-    public Challenge(int id, String name, String description, String type, String difficulty, int xp, String img){
+    public Challenge(int id, String name, String description, String type, String difficulty, long xp, String img){
          this.id_challenge = id;
          this.description_challenge = description;
          this.name_challenge = name;
@@ -39,7 +39,7 @@ public class Challenge {
         return this.difficulty;
     }
 
-    public int getXp_challenge(){
+    public long getXp_challenge(){
         return this.xp_challenge;
     }
 

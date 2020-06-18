@@ -42,8 +42,10 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import model.Challenge;
+import model.ChallengePivot;
 import model.DataBase;
 import model.FireBase;
+import model.FirestoreCallback;
 import model.User;
 
 public class ProfilFragment extends Fragment {
@@ -76,6 +78,17 @@ public class ProfilFragment extends Fragment {
 
         btn_logout = root.findViewById(R.id.btn_logout);
         txt_name = root.findViewById(R.id.session_name);
+        uName="patate";
+      /*  fb.getUser(new FirestoreCallback<User>() {
+            @Override
+            public void onCallback(User user) {
+                HashMap<Integer, ChallengePivot> backpack =user.getBackpack();
+
+                Log.d("User backpack", backpack.toString());
+                uName="patate";
+            }
+
+        });*/
 
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser != null) {

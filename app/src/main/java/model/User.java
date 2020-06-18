@@ -27,10 +27,10 @@ public class User {
      * add a challenge to user's backpack
      * @param challenge
      */
-   /* public void addChallenge(Challenge challenge){
-        ChallengePivot object = new ChallengePivot(challenge); //create link between User and Challenge
+    public void addChallenge(Challenge challenge, ChallengeStatus status){
+        ChallengePivot object = new ChallengePivot(challenge, status); //create link between User and Challenge
         this.backpack.put(challenge.getId_challenge(),object); //add this link to User's list
-    } */
+    }
 
     /**
      *  set a challenge done
@@ -42,8 +42,6 @@ public class User {
             bag.setDone(true);
         }
     } */
-
-
 
     /**
      * generate random challenge when one challenge is done or if it's a new user
@@ -59,5 +57,9 @@ public class User {
         //vérifier s'il n'existe pas déjà dans la backpack du user sinon recommancer (pas besoins à l'insciption d'un nouveau user)
         //seulement besoin lorsque il y a déjà eu des chaenge avant soit quand c pour remplacer un challenge abandonné ou réussit
 
+    }
+
+    public HashMap<Integer, ChallengePivot> getBackpack() {
+        return backpack;
     }
 }

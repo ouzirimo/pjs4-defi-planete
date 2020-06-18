@@ -1,5 +1,6 @@
 package com.example.pjs4;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -27,12 +28,12 @@ public class Root extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         FireBase fb = new FireBase();
-        fb.getAllChallenges(new FirestoreCallback<>() {
+        fb.getAllChallenges(new FirestoreCallback() {
             @Override
-            public void onCallback(T t) {
+            public void onCallback(HashMap map) {
                 Gson gson = new Gson();
                 MapWrapper wrapper = new MapWrapper();
-                wrapper.setMap(t);
+                wrapper.setMap(map);
                 String serializedMap = gson.toJson(wrapper);
             }
         });
