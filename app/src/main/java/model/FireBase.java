@@ -3,6 +3,11 @@ package model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -12,7 +17,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 public class FireBase {
     private FirebaseFirestore db;
@@ -28,15 +35,56 @@ public class FireBase {
 
         Calendar calendar = Calendar.getInstance();
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("Login", login);
-        user.put("Mail", mail);
-        user.put("Register Date", calendar.getTime());
-
+        //add User to User collection of Firebase
+        Map<String, Object> collection = new HashMap<>();
+        collection.put("Login", login);
+        collection.put("Mail", mail);
+        collection.put("Register Date", calendar.getTime());
+        collection.put("Level", 0);
         db.collection("Users").document(login)
-                .set(user)
+                .set(collection)
                 .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
                 .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+
+        //add Challenge to challenge subcollection of User
+        collection.clear();
+        collection.put("Etat","enCours");
+        db.collection("Users").document(login).collection("Challenge").document("1")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        collection.put("Etat","enCours");
+
+        db.collection("Users").document(login).collection("Challenge").document("2")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        collection.put("Etat","enCours");
+        db.collection("Users").document(login).collection("Challenge").document("3")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        collection.put("Etat","enCours");
+        db.collection("Users").document(login).collection("Challenge").document("4")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+
+      /*  int nbMax =challenges.size();
+        int idRandomChallenge = 0;
+        LinkedList <Integer> ListIdChallenge = new LinkedList<>();
+         for (int cpt =0; cpt<4;cpt++){
+            while(ListIdChallenge.contains(idRandomChallenge)||idRandomChallenge==0){
+                idRandomChallenge = new Random().nextInt(nbMax+1);
+            }
+            ListIdChallenge.add(idRandomChallenge);
+            collection.put("Etat","enCours");
+            String idChallenge = idRandomChallenge +"";
+            db.collection("Users").document(login).collection("Challenge").document(idChallenge)
+                    .set(collection)
+                    .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                    .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        }*/
     }
 
     public HashMap<String, Challenge> getChallenges() {
@@ -54,22 +102,22 @@ public class FireBase {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             long difficulty = document.getLong("Difficulté");
                             String difficulty_type;
-                            if (difficulty==1){
+                            if (difficulty == 1) {
                                 difficulty_type = "Facile";
-                            }
-                            else if(difficulty==2){
+                            } else if (difficulty == 2) {
                                 difficulty_type = "Moyen";
-                            }
-                            else{
+                            } else {
                                 difficulty_type = "Difficile";
                             }
-                            Challenge challenge = new Challenge(Integer.parseInt(document.getId()),document.getString("Titre"),
-                                    document.getString("Label"), document.getString("Type"),difficulty_type
+                            Challenge challenge = new Challenge(Integer.parseInt(document.getId()), document.getString("Titre"),
+                                    document.getString("Label"), document.getString("Type"), difficulty_type
                                     , difficulty, document.getString("Lien"));
 
                             challenges.put(document.getId(), challenge);
                         }
-                    }
+                    }else {
+                        Log.w("ERROR GET_ALL_CHALLENGE", "Error getting documents.", task.getException());
+                        }
                 });
     }
 

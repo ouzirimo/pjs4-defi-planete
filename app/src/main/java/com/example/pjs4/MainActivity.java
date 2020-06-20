@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import model.FireBase;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextLogin, editTextPassword;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
-
+        FireBase fb = new FireBase();
         btn_go = findViewById(R.id.button_goAccueil);
         btn_register = findViewById(R.id.button_register);
 
