@@ -7,33 +7,23 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import org.w3c.dom.Document;
-
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.Random;
 
 public class FireBase {
-    FirebaseFirestore db;
-    FirebaseStorage strg;
+    private FirebaseFirestore db;
+    private FirebaseStorage strg;
     private HashMap <String, Challenge> challenges; //id_challenge, object challenge
 
     public FireBase(){
@@ -45,63 +35,95 @@ public class FireBase {
 
         Calendar calendar = Calendar.getInstance();
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("Login", login);
-        user.put("Mail", mail);
-        user.put("Register Date", calendar.getTime());
-
+        //add User to User collection of Firebase
+        Map<String, Object> collection = new HashMap<>();
+        collection.put("Login", login);
+        collection.put("Mail", mail);
+        collection.put("Register Date", calendar.getTime());
+        collection.put("Level", 0);
         db.collection("Users").document(login)
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("Wrinting firestore db", "Error writing document", e);
-                    }
-                });
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+
+        //add Challenge to challenge subcollection of User
+        collection.clear();
+        collection.put("Etat","enCours");
+        db.collection("Users").document(login).collection("Challenge").document("1")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        collection.put("Etat","enCours");
+
+        db.collection("Users").document(login).collection("Challenge").document("2")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        collection.put("Etat","enCours");
+        db.collection("Users").document(login).collection("Challenge").document("3")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        collection.put("Etat","enCours");
+        db.collection("Users").document(login).collection("Challenge").document("4")
+                .set(collection)
+                .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+
+      /*  int nbMax =challenges.size();
+        int idRandomChallenge = 0;
+        LinkedList <Integer> ListIdChallenge = new LinkedList<>();
+         for (int cpt =0; cpt<4;cpt++){
+            while(ListIdChallenge.contains(idRandomChallenge)||idRandomChallenge==0){
+                idRandomChallenge = new Random().nextInt(nbMax+1);
+            }
+            ListIdChallenge.add(idRandomChallenge);
+            collection.put("Etat","enCours");
+            String idChallenge = idRandomChallenge +"";
+            db.collection("Users").document(login).collection("Challenge").document(idChallenge)
+                    .set(collection)
+                    .addOnSuccessListener(aVoid -> Log.d("Wrinting firestore db", "DocumentSnapshot successfully written!"))
+                    .addOnFailureListener(e -> Log.w("Wrinting firestore db", "Error writing document", e));
+        }*/
+    }
+
+    public HashMap<String, Challenge> getChallenges() {
+        return challenges;
     }
 
     public void getAllChallenges(){
 
-        this.challenges = new HashMap();
+        this.challenges = new HashMap<>();
 
         db.collection("Challenge")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                long difficulty = document.getLong("Difficulté");
-                                String difficulty_type;
-                                if (difficulty==1){
-                                    difficulty_type = "Facile";
-                                }
-                                else if(difficulty==2){
-                                    difficulty_type = "Moyen";
-                                }
-                                else{
-                                    difficulty_type = "Difficile";
-                                }
-                                Challenge challenge = new Challenge(Integer.parseInt(document.getId()),document.getString("Titre"),
-                                        document.getString("Label"), document.getString("Type"),difficulty_type
-                                        , difficulty, document.getString("Lien"));
-
-                                challenges.put(document.getId(), challenge);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            long difficulty = document.getLong("Difficulté");
+                            String difficulty_type;
+                            if (difficulty == 1) {
+                                difficulty_type = "Facile";
+                            } else if (difficulty == 2) {
+                                difficulty_type = "Moyen";
+                            } else {
+                                difficulty_type = "Difficile";
                             }
+                            Challenge challenge = new Challenge(Integer.parseInt(document.getId()), document.getString("Titre"),
+                                    document.getString("Label"), document.getString("Type"), difficulty_type
+                                    , difficulty, document.getString("Lien"));
+
+                            challenges.put(document.getId(), challenge);
                         }
-                    }
+                    }else {
+                        Log.w("ERROR GET_ALL_CHALLENGE", "Error getting documents.", task.getException());
+                        }
                 });
     }
 
     /**
-     * get the current User by calling it on the database
-     * @return User
+     * get the current User by calling it on the collection User of Firebase
+     * @param callback permits to return User
      */
     public void getUser(FirestoreCallback<User> callback){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -114,74 +136,41 @@ public class FireBase {
                 QuerySnapshot document = task.getResult();
                 String login = document.getDocuments().get(0).getString("Login");
                 User user = new User(login, mail);
-                Log.d("TEEEEEEEEEEEST", "TESSSST");
-                getUserChallenge(login, new FirestoreCallback<HashMap<String, String>>() {
-                    @Override
-                    public void onCallback(HashMap <String, String> map_challengePivot) {
-
-                        for (Map.Entry mapentry : map_challengePivot.entrySet()) { // For each challenge pivot
-                            String status = mapentry.getValue().toString();
-                            ChallengeStatus challengeStatus;
-                            if (status.equals("enCours")){
-                                challengeStatus = new UnDone();
-                            }
-                            else if(status.equals("enAttente")){
-                                challengeStatus = new InProgress();
-                            }
-                            else{
-                                challengeStatus = new Done();
-                            }
-                            user.addChallenge(challenges.get(mapentry.getKey()), challengeStatus);
-                        }
-                    }
-                });
-                Log.d("User", user.getLogin());
+                Log.d("In getUser methods", user.getLogin());
                 callback.onCallback(user);
             }
         });
     }
+    /**
+     * get the current User by calling it on the collection User of Firebase
+     * @param login permits to return User
+     */
+    public void getUserChallenge(String login, final FirestoreCallback <HashMap<String, String>> firestoreCallback) {
+        final HashMap <String, String> map = new HashMap();
+        db.collection("Users").document(login).collection("Challenge")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            map.put(document.getId(), document.getString("Etat"));
+                        }
+                        Log.d("List of User challenge", map.toString());
+                        firestoreCallback.onCallback(map);
+                    }
+                });
 
-
+    }
     public void getImage(String imageName, final FirestoreCallback <Bitmap> callback){
 
         final Bitmap[] b = new Bitmap[1];
         StorageReference storageRef = strg.getReference();
         StorageReference imagesRef = storageRef.child("Challenges/" + imageName);
         final long ONE_MEGABYTE = 1024 * 1024;
-        imagesRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                b[0] = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                callback.onCallback(b[0]);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
+        imagesRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
+            b[0] = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            callback.onCallback(b[0]);
+        }).addOnFailureListener(exception -> {
 
-            }
         });
     }
-
-
-    public void getUserChallenge(String login, final FirestoreCallback <HashMap<String, String>> firestoreCallback) {
-        final HashMap <String, String> map = new HashMap();
-        Log.d("TEEEEEEEEEEEST", "TESSSST");
-        db.collection("Users").document(login).collection("Challenge")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        Log.d("TEEEEEEEEEEEST", "TESSSSTeuuuhh");
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                map.put(document.getId(), document.getString("Etat"));
-                            }
-                            Log.d("Uncomplet challenge", map.toString());
-                            firestoreCallback.onCallback(map);
-                        }
-                    }
-                });
-
-    }
-
 }

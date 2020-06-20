@@ -4,19 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -30,35 +24,28 @@ public class SignUpActivity extends AppCompatActivity {
     String email,login,pass,conPass;
 
     private FirebaseAuth mAuth;
-    private FireBase db;
+    private FireBase fb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        db = new FireBase();
-
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
+        //BDD
+        fb = new FireBase();
         mAuth = FirebaseAuth.getInstance();
 
+        //inputs
         etEmail = findViewById(R.id.input_mail);
         etPassword = findViewById(R.id.input_mdp);
         etConPass = findViewById(R.id.input_mdp2);
         etLogin = findViewById(R.id.input_login);
 
         btnRegister = findViewById(R.id.btnRegister);
-
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                register();
-            }
-        });
+        btnRegister.setOnClickListener(v -> register());
     }
 
     private void updateUI(FirebaseUser user) {
@@ -67,12 +54,9 @@ public class SignUpActivity extends AppCompatActivity {
                 .build();
 
         user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("Update user profile :", "User profile updated.");
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("Update user profile :", "User profile updated.");
                     }
                 });
     }
@@ -131,44 +115,39 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private void onSignUpSuccess() {
-
+        Log.d("TEST SIGNUP","signOut");
+        FirebaseAuth.getInstance().signOut();
+        Log.d("TEST SIGNUP","Create User");
         mAuth.createUserWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("SignUp", "Success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("SignUp", "Success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user!= null) {
                             updateUI(user);
-                            db.addNewUser(login, email);
+                            fb.addNewUser(login, email);
                             FirebaseAuth.getInstance().signOut();
                             authentication();
-
-                        } else {
-                            Toast.makeText(SignUpActivity.this,"L'adresse mail que vous tentez d'utiliser est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(SignUpActivity.this,"L'adresse mail que vous tentez d'utiliser est déjà attribuée à un compte", Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     private void authentication() {
         mAuth.signInWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success
-                            Log.d("Authentication", "Success");
+                .addOnCompleteListener(SignUpActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success
+                        Log.d("Authentication", "Success");
+                        openAccueil();
 
-                            openAccueil();
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d("Authentication", "Failed");
-                            Toast.makeText(SignUpActivity.this, "Authentification échouée",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.d("Authentication", "Failed");
+                        Toast.makeText(SignUpActivity.this, "Authentification échouée",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
