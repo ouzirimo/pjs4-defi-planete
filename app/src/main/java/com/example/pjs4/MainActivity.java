@@ -6,10 +6,10 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
             authentication();
         });
 
-
         btn_register.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SignUpActivity.class)));
-
     }
 
     private void intialize() {
@@ -52,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void authentication() {
-
         mAuth.signInWithEmailAndPassword(login, pwd)
                 .addOnCompleteListener(MainActivity.this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success
                         Log.d("Authentication", "Success");
+
                         openAccueil();
 
                     } else {
@@ -67,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
     }
 
     private void openAccueil() {
