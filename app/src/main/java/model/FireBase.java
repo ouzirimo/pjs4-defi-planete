@@ -30,6 +30,11 @@ public class FireBase {
         db = FirebaseFirestore.getInstance();
         strg = FirebaseStorage.getInstance();
     }
+    private static FireBase instance;
+
+    static {
+        instance = new FireBase();
+    }
 
     public void addNewUser(String login, String mail){
 

@@ -94,12 +94,17 @@ public class ProfilFragment extends Fragment {
         if (fbUser != null) {
             uName = fbUser.getDisplayName();
         }
-       /*fb.getUser(new Callback<User>() {
-            @Override
-            public void Call(User user) {
-                Log.d("User", user.getLogin());
-            }
-        });*/
+       fb.getUser(new FirestoreCallback<User>(){
+           @Override
+           public void onCallback(User user) {
+               HashMap<Integer, ChallengePivot> backpack =user.getBackpack();
+
+               Log.d("User backpack", backpack.toString());
+               showChallengeDone(root);
+               showChallengeInProgress(root);
+           }
+
+        });
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
 
@@ -192,7 +197,7 @@ public class ProfilFragment extends Fragment {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     500, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(100,0,0,0);
-            lay_child.setBackgroundColor(Color.BLUE);
+            lay_child.setBackgroundColor(getResources().getColor(R.color.colorDefi));
             lay_child.setLayoutParams(layoutParams);
             TextView tv_title = new TextView(v.getContext());
             tv_title.setTextSize(20);
@@ -225,7 +230,7 @@ public class ProfilFragment extends Fragment {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     500, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(100,0,0,0);
-            lay_child.setBackgroundColor(Color.BLUE);
+            lay_child.setBackgroundColor(getResources().getColor(R.color.colorDefi));
             lay_child.setLayoutParams(layoutParams);
             TextView tv_title = new TextView(v.getContext());
             tv_title.setTextSize(20);
